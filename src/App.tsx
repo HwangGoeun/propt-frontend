@@ -1,9 +1,11 @@
 import './index.css';
 
+import LoginPage from './pages/login';
+
 function App() {
   return (
     <>
-      <h1>Hello World!</h1>
+      <LoginPage></LoginPage>
     </>
   );
 }
