@@ -1,11 +1,11 @@
 import './index.css';
 
-import LoginPage from './pages/login';
+import TemplatesPage from './pages/templates';
 
 function App() {
   return (
     <>
-      <LoginPage></LoginPage>
+      <TemplatesPage />
     </>
   );
 }
