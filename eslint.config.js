@@ -59,6 +59,10 @@ export default defineConfig([
       '@typescript-eslint/no-var-requires': 'error',
 
       // React 규칙
+      'react/self-closing-comp': ['error', {
+        component: true,
+        html: true
+      }],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
