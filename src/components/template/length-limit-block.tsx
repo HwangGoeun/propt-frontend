@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import { BlockWrapper } from '@/components/common/block-wrapper';
 import {
   Select,
   SelectContent,
@@ -6,33 +9,44 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { BlockWrapper } from '../common/block-wrapper';
-
 interface LengthLimitBlockProps {
   order: number;
 }
 
+const LENGTH_LIMITS = ['100', '200', '500', '1000'] as const;
+type LengthLimit = typeof LENGTH_LIMITS[number];
+
 export function LengthLimitBlock({ order }: LengthLimitBlockProps) {
-  // TODO: 추후 state로 변경
-  const selectedMaxLength = '200';
+  const [lengthLimit, setLengthLimit] = useState<LengthLimit>('100');
 
   return (
     <BlockWrapper
       order={order}
       title={'길이 제한'}
     >
-      <p className="text-sm">{`각 결과는 최대 ${selectedMaxLength}단어 이내로 작성해주세요`}</p>
+      <p className="text-sm">{`각 결과는 최대 ${lengthLimit} 단어 이내로 작성해주세요`}</p>
       <div className="flex items-center gap-4 mt-2">
         <span className="text-sm font-medium mr-2">최대 길이:</span>
-        <Select defaultValue="200">
+        <Select
+          defaultValue={lengthLimit}
+          onValueChange={(value) => {
+            setLengthLimit(value as LengthLimit);
+          }}
+        >
           <SelectTrigger className="w-full max-w-[300px]">
             <SelectValue placeholder="길이 선택" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="100">100단어</SelectItem>
-            <SelectItem value="200">200단어</SelectItem>
-            <SelectItem value="500">500단어</SelectItem>
-            <SelectItem value="1000">1000단어</SelectItem>
+            {
+              LENGTH_LIMITS.map((lengthLimit) => (
+                <SelectItem
+                  key={lengthLimit}
+                  value={lengthLimit}
+                >
+                  {`${lengthLimit} 단어`}
+                </SelectItem>
+              ))
+            }
           </SelectContent>
         </Select>
       </div>

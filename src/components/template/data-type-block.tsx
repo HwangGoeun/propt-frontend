@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { BlockWrapper } from '@/components/common/block-wrapper';
 import { Button } from '@/components/ui/button';
 
@@ -5,7 +7,12 @@ interface DataTypeBlockProps {
   order: number;
 }
 
+const DATA_TYPES = ['table', 'list', 'paragraph', 'JSON'] as const;
+type DataType = typeof DATA_TYPES[number];
+
 export function DataTypeBlock({ order }: DataTypeBlockProps) {
+  const [dataType, setDataType] = useState<DataType>('table');
+
   return (
     <BlockWrapper
       order={order}
@@ -14,10 +21,16 @@ export function DataTypeBlock({ order }: DataTypeBlockProps) {
       <div className="flex items-center gap-4 mt-2">
         <span className="text-sm font-medium mr-2">출력 형식:</span>
         <div className="flex gap-2">
-          <Button variant="secondary" className="w-24 bg-muted/50 border shadow-sm">표</Button>
-          <Button variant="outline" className="w-24">리스트</Button>
-          <Button variant="outline" className="w-24">단락</Button>
-          <Button variant="outline" className="w-24">JSON</Button>
+          {DATA_TYPES.map((value) => (
+            <Button
+              key={value}
+              onClick={() => setDataType(value)}
+              variant={dataType === value ? 'secondary' : 'outline'}
+              className="uppercase"
+            >
+              {value}
+            </Button>
+          ))}
         </div>
       </div>
     </BlockWrapper>

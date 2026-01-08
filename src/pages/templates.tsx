@@ -1,16 +1,17 @@
-import React from 'react';
+import { useState } from 'react';
 
 import { PreviewPanel } from '@/components/preview';
 import { AppSidebar } from '@/components/sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { TemplatePanel } from '@/components/template';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { variableList } from '@/data/mock-variables';
+import type { TemplateVariable } from '@/types/template';
 
 export default function TemplatesPage() {
   // TODO: activeItem props drilling 발생 -> 추후 상태 관리 대상
   // TODO: setActiveItem props drilling 발생 -> 추후 상태 관리 대상
-  const [activeItem, setActiveItem] = React.useState('과제 평가');
+  const [activeItem, setActiveItem] = useState('과제 평가');
+  const [variableList, setVariableList] = useState<TemplateVariable[]>([]);
 
   return (
     <SidebarProvider>
@@ -29,6 +30,7 @@ export default function TemplatesPage() {
           {/* Main Content Area */}
           <TemplatePanel
             activeItem={activeItem}
+            setVariableList={setVariableList}
             variableList={variableList}
           />
 
