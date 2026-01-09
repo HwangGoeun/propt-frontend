@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { PreviewPanel } from '@/components/preview';
 import { AppSidebar } from '@/components/sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { TemplatePanel } from '@/components/template';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { useTemplates } from '@/hooks/use-templates';
 import type { TemplateVariable } from '@/types/template';
 
 export default function TemplatesPage() {
@@ -12,6 +13,13 @@ export default function TemplatesPage() {
   // TODO: setActiveItem props drilling 발생 -> 추후 상태 관리 대상
   const [activeItem, setActiveItem] = useState('과제 평가');
   const [variableList, setVariableList] = useState<TemplateVariable[]>([]);
+
+  const { data, error } = useTemplates();
+
+  useEffect(() => {
+    if (data) console.log('data from backend:', data);
+    if (error) console.error('error:', error);
+  }, [data, error]);
 
   return (
     <SidebarProvider>

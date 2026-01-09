@@ -9,8 +9,10 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
-import { basicTemplateList, myTemplateList, optionList } from '@/data/mock-templates';
+import { basicTemplateList, optionList } from '@/data/mock-templates';
 import { useAuthStore } from '@/stores/auth-store';
+
+import { MyTemplateGroup } from './my-template-group';
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeItem: string;
@@ -30,12 +32,9 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
       </SidebarHeader>
 
       <SidebarContent className="bg-muted/10 px-2 gap-2">
-        <NavGroup
-          title="my template"
-          items={myTemplateList}
+        <MyTemplateGroup
           activeItem={activeItem}
           onItemSelect={onItemSelect}
-          isMyTemplate={true}
         />
 
         <NavGroup
