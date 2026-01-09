@@ -1,26 +1,28 @@
-import { useRef } from 'react';
+import { type ChangeEvent, useState } from 'react';
 
 import { BlockWrapper } from '@/components/common/block-wrapper';
 import { VariableBlock } from '@/components/template/variable-block';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { extractVariablesFromText } from '@/lib/template-utils';
-import type { TemplateVariable } from '@/types/template';
+import { extractVariablesFromPrompt } from '@/lib/template-utils';
+import type { Template, TemplateVariable } from '@/types/template';
 
 interface TextBlockProps {
+  activeItem: Template
   order: number;
   setVariableList: (variables: TemplateVariable[]) => void;
-  variableList?: TemplateVariable[] | null;
+  variableList: TemplateVariable[] | [];
 }
 
 // TODO: 변수 설명 입력칸 구현 필요
-export function TextBlock({ order, setVariableList, variableList }: TextBlockProps) {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+export function TextBlock({ activeItem, order, setVariableList, variableList }: TextBlockProps) {
+  const [promptContent, setPromptContent] = useState(activeItem.content);
 
-  function handleTextInput() {
-    const text = textAreaRef.current?.value || '';
+  function handleTextInput(e: ChangeEvent<HTMLTextAreaElement>) {
+    const newPrompt = e.target.value;
 
-    setVariableList(extractVariablesFromText(text));
+    setPromptContent(newPrompt);
+    setVariableList(extractVariablesFromPrompt(newPrompt));
   }
 
   return (
@@ -28,15 +30,14 @@ export function TextBlock({ order, setVariableList, variableList }: TextBlockPro
       order={order}
       title={'텍스트 입력'}>
       <Textarea
-        ref={textAreaRef}
         onChange={handleTextInput}
         placeholder={'\'{문장}\'을 {언어}로 번역해주세요.'}
+        value={promptContent}
       />
       <Separator />
       <div className="space-y-4">
         <p className="text-sm font-medium">변수 설정</p>
         {
-          // TODO: 삼항 연산자로 인한 가독성 저하 개선 필요
           variableList && variableList.length > 0 ?
             <div>
               {variableList.map((variable) => (

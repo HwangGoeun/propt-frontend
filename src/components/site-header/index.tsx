@@ -1,9 +1,10 @@
 import { MCPServerGuideModal } from '@/components/site-header/mcp-server-guide-modal.tsx';
 import { ModeToggle } from '@/components/site-header/mode-toggle';
 import { SiteHeaderBreadcrumb } from '@/components/site-header/site-header-breadcrumb';
+import type { Template } from '@/types/template';
 
 interface SiteHeaderProps {
-  activeItem: string;
+  activeItem: Template;
 }
 
 export function SiteHeader({ activeItem }: SiteHeaderProps) {

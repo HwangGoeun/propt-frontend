@@ -8,9 +8,10 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import type { Template } from '@/types/template';
 
 interface SiteHeaderBreadcrumbProps {
-  activeItem: string;
+  activeItem: Template;
 }
 
 export function SiteHeaderBreadcrumb({ activeItem }: SiteHeaderBreadcrumbProps) {
@@ -27,7 +28,7 @@ export function SiteHeaderBreadcrumb({ activeItem }: SiteHeaderBreadcrumbProps) 
           </BreadcrumbItem>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>
-            <BreadcrumbPage>{activeItem}</BreadcrumbPage>
+            <BreadcrumbPage>{activeItem.title}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

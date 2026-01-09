@@ -9,13 +9,14 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
-import { basicTemplateList, optionList } from '@/data/mock-templates';
+import { basicTemplates } from '@/data/templates';
 import { useAuthStore } from '@/stores/auth-store';
+import type { Template } from '@/types/template';
 
 import { MyTemplateGroup } from './my-template-group';
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  activeItem: string;
+  activeItem: Template;
   onItemSelect: (item: string) => void;
 }
 
@@ -39,14 +40,7 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
 
         <NavGroup
           title="basic template"
-          items={basicTemplateList}
-          activeItem={activeItem}
-          onItemSelect={onItemSelect}
-        />
-
-        <NavGroup
-          title="options"
-          items={optionList}
+          items={basicTemplates}
           activeItem={activeItem}
           onItemSelect={onItemSelect}
         />

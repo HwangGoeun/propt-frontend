@@ -1,24 +1,27 @@
 import { useTemplates } from '@/hooks/use-templates';
-import type { NavItemData, TemplateResponseDto } from '@/types/template';
+import type { Template, TemplateResponseDto } from '@/types/template';
 
 import { NavGroup } from './nav-group';
 
 interface MyTemplaetGroupProps {
-  activeItem: string;
+  activeItem: Template;
   onItemSelect: (item: string) => void;
 }
 
 export function MyTemplateGroup({ activeItem, onItemSelect }: MyTemplaetGroupProps) {
   const { data: templates = [] } = useTemplates();
 
-  const items: NavItemData[] = (templates ?? []).map((template: TemplateResponseDto) => ({
-    icon: '',
-    label: template.title,
+  const items: Template[] = (templates ?? []).map((template: TemplateResponseDto): Template => ({
+    id: template.id,
+    title: template.title,
+    description: template.description,
+    content: template.content,
+    variables: template.variables
   }));
 
   return (
     <NavGroup
-      title={'My Template'}
+      title={'My Templates'}
       items={items}
       activeItem={activeItem}
       onItemSelect={onItemSelect}

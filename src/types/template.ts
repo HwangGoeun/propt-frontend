@@ -1,4 +1,5 @@
 export interface NavItemData {
+  id?: string;
   icon: string;
   label: string;
 }
@@ -16,4 +17,12 @@ export interface TemplateResponseDto {
   variables: TemplateVariable[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Template {
+  id?: string;
+  title: string;
+  description: string;
+  content: string;
+  variables: TemplateVariable[];
 }

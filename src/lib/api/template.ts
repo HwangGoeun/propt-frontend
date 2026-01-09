@@ -11,4 +11,11 @@ export const templateApi = {
 
     return response.data.data;
   },
+
+  findOneById: async (id: string) => {
+    const response =
+      await apiClient.get<ApiSuccessResponse<TemplateResponseDto>>(`/templates/${id}`);
+
+    return response.data.data;
+  },
 };

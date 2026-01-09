@@ -1,23 +1,23 @@
 import { Card, CardContent } from '@/components/ui/card';
-import type { TemplateVariable } from '@/types/template';
+import type { Template, TemplateVariable } from '@/types/template';
 
 interface PreviewCardProps {
-  activeItem: string;
-  variableList?: TemplateVariable[] | null;
+  activeItem: Template;
+  variables: TemplateVariable[] | [];
 }
 
-export function PreviewCard({ activeItem, variableList }: PreviewCardProps) {
+export function PreviewCard({ activeItem, variables }: PreviewCardProps) {
   return (
     <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
       <CardContent className="p-6 space-y-4 text-sm">
         <div className="space-y-1">
-          <p className="font-semibold text-blue-600">사용자: /{activeItem}</p>
+          <p className="font-semibold text-blue-600">사용자: /{activeItem.title}</p>
         </div>
 
         <div className="space-y-2">
           <p className="font-semibold text-purple-600">Claude: 변수를 입력해주세요</p>
 
-          {variableList?.map((variable) => (
+          {variables.map((variable) => (
             <div
               key={variable.name}
               className="pl-0 space-y-1 font-semibold text-blue-600"

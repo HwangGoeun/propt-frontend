@@ -9,3 +9,10 @@ export function useTemplates() {
   });
 }
 
+export function useTemplate(id: string | null) {
+  return useQuery({
+    queryKey: ['templates', id],
+    queryFn: () => templateApi.findOneById(id!),
+    enabled: !!id,
+  });
+}

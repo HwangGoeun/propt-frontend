@@ -5,12 +5,12 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
 } from '@/components/ui/sidebar';
-import type { NavItemData } from '@/types/template';
+import type { Template } from '@/types/template';
 
 interface NavGroupProps extends React.ComponentProps<typeof SidebarGroup> {
   title: string;
-  items: NavItemData[];
-  activeItem: string;
+  items: Template[];
+  activeItem: Template;
   onItemSelect: (item: string) => void;
   isMyTemplate?: boolean;
 }
@@ -25,7 +25,7 @@ export function NavGroup({ title, items, activeItem, onItemSelect, isMyTemplate 
         <SidebarMenu>
           {items.map((item) => (
             <NavItem
-              key={item.label}
+              key={item.title}
               item={item}
               activeItem={activeItem}
               onItemSelect={onItemSelect}
