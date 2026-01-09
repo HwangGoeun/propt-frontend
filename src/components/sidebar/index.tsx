@@ -1,13 +1,16 @@
 import { Plus } from 'lucide-react';
 
 import { NavGroup } from '@/components/sidebar/nav-group';
+import { NavUser } from '@/components/sidebar/nav-user';
 import { Button } from '@/components/ui/button';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
 import { basicTemplateList, myTemplateList, optionList } from '@/data/mock-templates';
+import { useAuthStore } from '@/stores/auth-store';
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   activeItem: string;
@@ -15,6 +18,8 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarProps) {
+  const { user, logout } = useAuthStore();
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="bg-muted/10 p-4 border-b-0">
@@ -25,7 +30,6 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
       </SidebarHeader>
 
       <SidebarContent className="bg-muted/10 px-2 gap-2">
-        {/* My Template Category */}
         <NavGroup
           title="my template"
           items={myTemplateList}
@@ -34,7 +38,6 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
           isMyTemplate={true}
         />
 
-        {/* Basic Template Category */}
         <NavGroup
           title="basic template"
           items={basicTemplateList}
@@ -42,7 +45,6 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
           onItemSelect={onItemSelect}
         />
 
-        {/* Options Category */}
         <NavGroup
           title="options"
           items={optionList}
@@ -50,6 +52,12 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
           onItemSelect={onItemSelect}
         />
       </SidebarContent>
+
+      {user && (
+        <SidebarFooter className="bg-muted/10 p-2 mb-3.5 border-t border-sidebar-border">
+          <NavUser user={user} onLogout={logout} />
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }
