@@ -1,10 +1,16 @@
 
 import type { ApiSuccessResponse } from '@/types/api-response';
-import type { TemplateResponseDto } from '@/types/template';
+import type { CreateTemplateDto, TemplateResponseDto } from '@/types/template';
 
 import { apiClient } from './client';
 
 export const templateApi = {
+  create: async (dto: CreateTemplateDto) => {
+    const response = await apiClient.post<ApiSuccessResponse<TemplateResponseDto>>('/templates', dto);
+
+    return response.data.data;
+  },
+
   findAll: async () => {
     const response =
       await apiClient.get<ApiSuccessResponse<TemplateResponseDto[]>>('/templates');

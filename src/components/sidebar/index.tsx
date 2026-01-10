@@ -10,17 +10,36 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar';
 import { basicTemplates } from '@/data/templates';
+import { useCreateTemplate, useTemplates } from '@/hooks/use-templates';
+import { getUniqueTitle } from '@/lib/template-utils';
 import { useAuthStore } from '@/stores/auth-store';
 
 import { MyTemplateGroup } from './my-template-group';
 
 export function AppSidebar({ ...props }) {
   const { user, logout } = useAuthStore();
+  const { data: templates = [] } = useTemplates();
+  const { mutate: createTemplate } = useCreateTemplate();
+
+  const handleCreateClick = () => {
+    const newTitle = getUniqueTitle('새로운 프롬프트', templates);
+
+    createTemplate({
+      title: newTitle,
+      description: null,
+      content: '프롬프트를 입력해주세요.',
+      variables: [],
+    });
+  };
 
   return (
     <Sidebar {...props}>
       <SidebarHeader className="bg-muted/10 p-4 border-b-0">
-        <Button variant="outline" className="w-full justify-start gap-2">
+        <Button
+          onClick={handleCreateClick}
+          variant="outline"
+          className="w-full justify-start gap-2"
+        >
           <Plus className="h-4 w-4" />
           새 프롬프트 만들기
         </Button>

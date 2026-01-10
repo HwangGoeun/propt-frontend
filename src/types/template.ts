@@ -26,3 +26,10 @@ export interface Template {
   content: string;
   variables: TemplateVariable[];
 }
+
+export interface CreateTemplateDto {
+  title: string;
+  description: string | null;
+  content: string | null;
+  variables: TemplateVariable[];
+}

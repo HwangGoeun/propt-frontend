@@ -15,3 +15,25 @@ export function extractVariablesFromPrompt(text: string) {
 
   return extractedVariables;
 }
+
+export function getUniqueTitle(baseTitle: string, templates: { title: string }[]): string {
+  const hasBaseTitle = templates.some((t) => t.title === baseTitle);
+
+  if (hasBaseTitle) {
+    const maxNumber = templates.reduce((max, t) => {
+      if (t.title.startsWith(`${baseTitle} `)) {
+        const match = t.title.match(new RegExp(`^${baseTitle} (\\d+)$`));
+        if (match) {
+          const num = parseInt(match[1], 10);
+
+          return num > max ? num : max;
+        }
+      }
+      return max;
+    }, 0);
+
+    return `${baseTitle} ${maxNumber + 1}`;
+  }
+
+  return baseTitle;
+}

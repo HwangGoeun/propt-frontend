@@ -14,13 +14,11 @@ export function TemplateWorkspace() {
   return (
     <>
       <TemplatePanel
-        key={activeItem.id}
         variables={variables}
         setVariables={setVariables}
       />
 
       <PreviewPanel
-        key={activeItem.id}
         variables={variables}
       />
     </>
