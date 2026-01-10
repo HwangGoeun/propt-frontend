@@ -45,8 +45,7 @@ export function TextBlock({ order, variables, setVariables }: TextBlockProps) {
               {variables.map((variable) => (
                 <VariableBlock
                   key={variable.name}
-                  name={variable.name}
-                  description={variable.description}
+                  variable={variable}
                 />
               ))}
             </div> :
