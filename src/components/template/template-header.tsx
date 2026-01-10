@@ -4,21 +4,22 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { useUpdateTemplate } from '@/hooks/use-templates';
 import { useTemplateStore } from '@/stores/template-store';
-import type { TemplateVariable } from '@/types/template';
 
-interface TemplateHeaderProps {
-  variables?: TemplateVariable[] | null;
-}
+export function TemplateHeader() {
+  const { activeItem, updateActiveItem } = useTemplateStore();
+  const { mutate: updateTemplate } = useUpdateTemplate(activeItem.id);
 
-export function TemplateHeader({ variables }: TemplateHeaderProps) {
-  const { activeItem } = useTemplateStore();
   const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState(activeItem.title);
 
   function handleSave() {
-    // TODO: PATCH /templates/:id API 요청 구현
-    console.log(variables);
+    updateTemplate({
+      title: activeItem.title,
+      content: activeItem.content,
+      variables: activeItem.variables ?? [],
+    });
+    setIsEditing(false);
   }
 
   return (
@@ -27,8 +28,8 @@ export function TemplateHeader({ variables }: TemplateHeaderProps) {
         <div>
           {isEditing ? (
             <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={activeItem.title}
+              onChange={(e) => updateActiveItem({ title: e.target.value })}
               onBlur={() => setIsEditing(false)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') setIsEditing(false);
@@ -41,11 +42,11 @@ export function TemplateHeader({ variables }: TemplateHeaderProps) {
               className="flex items-center gap-2 group cursor-pointer"
               onClick={() => setIsEditing(true)}
             >
-              <h2 className="text-2xl font-bold">{title}</h2>
+              <h2 className="text-2xl font-bold">{activeItem.title}</h2>
               <Pencil className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           )}
-          <p className="text-sm text-muted-foreground mt-1">{`Claude.ai에서 /${title} 명령으로 사용 가능`}</p>
+          <p className="text-sm text-muted-foreground mt-1">{`Claude.ai에서 /${activeItem.title} 명령으로 사용 가능`}</p>
         </div>
         <Button
           onClick={handleSave}

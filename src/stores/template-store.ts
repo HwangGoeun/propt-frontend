@@ -6,6 +6,7 @@ import type { Template } from '@/types/template';
 interface TemplateState {
   activeItem: Template;
   setActiveItem: (template: Template) => void;
+  updateActiveItem: (updates: Partial<Template>) => void;
 }
 
 export const useTemplateStore = create<TemplateState>((set) => ({
@@ -13,5 +14,11 @@ export const useTemplateStore = create<TemplateState>((set) => ({
 
   setActiveItem: (template) => {
     set({ activeItem: template });
+  },
+
+  updateActiveItem: (updates) => {
+    set((state) => ({
+      activeItem: { ...state.activeItem, ...updates },
+    }));
   },
 }));

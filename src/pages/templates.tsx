@@ -8,8 +8,8 @@ import { useTemplates } from '@/hooks/use-templates';
 import { useTemplateStore } from '@/stores/template-store';
 
 export default function TemplatesPage() {
-  const { data, error } = useTemplates();
   const { activeItem } = useTemplateStore();
+  const { data, error } = useTemplates();
 
   useEffect(() => {
     if (data) console.log('data from backend:', data);
@@ -25,7 +25,7 @@ export default function TemplatesPage() {
         <div className="flex flex-1 overflow-hidden pt-14">
           <TemplateWorkspace key={activeItem.id} />
         </div>
-      </div>
+      </div >
     </SidebarProvider >
   );
 }

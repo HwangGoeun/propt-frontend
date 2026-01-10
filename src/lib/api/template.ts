@@ -1,4 +1,3 @@
-
 import type { ApiSuccessResponse } from '@/types/api-response';
 import type { CreateTemplateDto, TemplateResponseDto } from '@/types/template';
 
@@ -21,6 +20,13 @@ export const templateApi = {
   findOneById: async (id: string) => {
     const response =
       await apiClient.get<ApiSuccessResponse<TemplateResponseDto>>(`/templates/${id}`);
+
+    return response.data.data;
+  },
+
+  update: async (id: string, dto: Partial<CreateTemplateDto>) => {
+    const response =
+      await apiClient.patch<ApiSuccessResponse<TemplateResponseDto>>(`/templates/${id}`, dto);
 
     return response.data.data;
   },

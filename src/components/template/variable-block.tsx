@@ -2,6 +2,7 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
+import { useTemplateStore } from '@/stores/template-store';
 import type { TemplateVariable } from '@/types/template';
 
 interface VariableBlockProps {
@@ -9,8 +10,21 @@ interface VariableBlockProps {
 }
 
 export function VariableBlock({ variable }: VariableBlockProps) {
+  const { activeItem, updateActiveItem } = useTemplateStore();
+
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(variable.description);
+
+  function handleBlur() {
+    setIsEditing(false);
+
+    const newVariables = (activeItem.variables ?? []).map((v) =>
+      v.name === variable.name
+        ? { ...v, description: description ?? '' }
+        : v
+    );
+    updateActiveItem({ variables: newVariables });
+  }
 
   return (
     <div className="flex items-center gap-4 bg-muted/30 p-2 rounded-md">
@@ -23,9 +37,9 @@ export function VariableBlock({ variable }: VariableBlockProps) {
         <Input
           value={description ?? ''}
           onChange={(e) => setDescription(e.target.value)}
-          onBlur={() => setIsEditing(false)}
+          onBlur={handleBlur}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') setIsEditing(false);
+            if (e.key === 'Enter') handleBlur();
           }}
           autoFocus
           className="text-xs text-muted-foreground h-auto py-1 px-2 w-full"

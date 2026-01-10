@@ -1,12 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { useTemplateStore } from '@/stores/template-store';
-import type { TemplateVariable } from '@/types/template';
 
-interface PreviewCardProps {
-  variables: TemplateVariable[] | [];
-}
-
-export function PreviewCard({ variables }: PreviewCardProps) {
+export function PreviewCard() {
   const { activeItem } = useTemplateStore();
 
   return (
@@ -19,7 +14,7 @@ export function PreviewCard({ variables }: PreviewCardProps) {
         <div className="space-y-2">
           <p className="font-semibold text-purple-600">Claude: 변수를 입력해주세요</p>
 
-          {variables.map((variable) => (
+          {(activeItem.variables ?? []).map((variable) => (
             <div
               key={variable.name}
               className="pl-0 space-y-1 font-semibold text-blue-600"
@@ -30,7 +25,7 @@ export function PreviewCard({ variables }: PreviewCardProps) {
         </div>
 
         <div className="pt-2 text-xs text-muted-foreground">
-          → 입력 완료 후 실행
+          <p>→ 입력 완료 후 실행</p>
         </div>
       </CardContent>
     </Card>

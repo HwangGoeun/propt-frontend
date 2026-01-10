@@ -1,26 +1,11 @@
-import { useState } from 'react';
-
-import { useTemplateStore } from '@/stores/template-store';
-import type { TemplateVariable } from '@/types/template';
-
-import { PreviewPanel } from '../preview';
-import { TemplatePanel } from '.';
+import { PreviewPanel } from '@/components/preview';
+import { TemplatePanel } from '@/components/template';
 
 export function TemplateWorkspace() {
-  const { activeItem } = useTemplateStore();
-
-  const [variables, setVariables] = useState<TemplateVariable[]>(activeItem.variables ?? []);
-
   return (
     <>
-      <TemplatePanel
-        variables={variables}
-        setVariables={setVariables}
-      />
-
-      <PreviewPanel
-        variables={variables}
-      />
+      <TemplatePanel />
+      <PreviewPanel />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { type ChangeEvent, useState } from 'react';
+import type { ChangeEvent } from 'react';
 
 import { BlockWrapper } from '@/components/common/block-wrapper';
 import { VariableBlock } from '@/components/template/variable-block';
@@ -6,25 +6,17 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { extractVariablesFromPrompt } from '@/lib/template-utils';
 import { useTemplateStore } from '@/stores/template-store';
-import type { TemplateVariable } from '@/types/template';
 
-interface TextBlockProps {
-  order: number;
-  variables: TemplateVariable[] | [];
-  setVariables: (variables: TemplateVariable[]) => void;
-}
-
-// TODO: 변수 설명 입력칸 구현 필요
-export function TextBlock({ order, variables, setVariables }: TextBlockProps) {
-  const { activeItem } = useTemplateStore();
-
-  const [promptContent, setPromptContent] = useState(activeItem.content);
+export function TextBlock({ order }: { order: number }) {
+  const { activeItem, updateActiveItem } = useTemplateStore();
 
   function handleTextInput(e: ChangeEvent<HTMLTextAreaElement>) {
     const newPrompt = e.target.value;
 
-    setPromptContent(newPrompt);
-    setVariables(extractVariablesFromPrompt(newPrompt));
+    updateActiveItem({
+      content: newPrompt,
+      variables: extractVariablesFromPrompt(newPrompt),
+    });
   }
 
   return (
@@ -34,15 +26,15 @@ export function TextBlock({ order, variables, setVariables }: TextBlockProps) {
       <Textarea
         onChange={handleTextInput}
         placeholder={'\'{문장}\'을 {언어}로 번역해주세요.'}
-        value={promptContent}
+        value={activeItem.content}
       />
       <Separator />
       <div className="space-y-4">
         <p className="text-sm font-medium">변수 설정</p>
         {
-          variables.length > 0 ?
+          (activeItem.variables ?? []).length > 0 ?
             <div>
-              {variables.map((variable) => (
+              {(activeItem.variables ?? []).map((variable) => (
                 <VariableBlock
                   key={variable.name}
                   variable={variable}
