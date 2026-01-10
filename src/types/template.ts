@@ -20,7 +20,7 @@ export interface TemplateResponseDto {
 }
 
 export interface Template {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   content: string;

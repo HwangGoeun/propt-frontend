@@ -10,12 +10,12 @@ import type { TemplateVariable } from '@/types/template';
 
 interface TextBlockProps {
   order: number;
-  setVariableList: (variables: TemplateVariable[]) => void;
-  variableList: TemplateVariable[] | [];
+  variables: TemplateVariable[] | [];
+  setVariables: (variables: TemplateVariable[]) => void;
 }
 
 // TODO: 변수 설명 입력칸 구현 필요
-export function TextBlock({ order, setVariableList, variableList }: TextBlockProps) {
+export function TextBlock({ order, variables, setVariables }: TextBlockProps) {
   const { activeItem } = useTemplateStore();
 
   const [promptContent, setPromptContent] = useState(activeItem.content);
@@ -24,7 +24,7 @@ export function TextBlock({ order, setVariableList, variableList }: TextBlockPro
     const newPrompt = e.target.value;
 
     setPromptContent(newPrompt);
-    setVariableList(extractVariablesFromPrompt(newPrompt));
+    setVariables(extractVariablesFromPrompt(newPrompt));
   }
 
   return (
@@ -40,9 +40,9 @@ export function TextBlock({ order, setVariableList, variableList }: TextBlockPro
       <div className="space-y-4">
         <p className="text-sm font-medium">변수 설정</p>
         {
-          variableList && variableList.length > 0 ?
+          variables.length > 0 ?
             <div>
-              {variableList.map((variable) => (
+              {variables.map((variable) => (
                 <VariableBlock
                   key={variable.name}
                   name={variable.name}

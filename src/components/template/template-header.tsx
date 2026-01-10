@@ -4,15 +4,15 @@ import { useTemplateStore } from '@/stores/template-store';
 import type { TemplateVariable } from '@/types/template';
 
 interface TemplateHeaderProps {
-  variableList?: TemplateVariable[] | null;
+  variables?: TemplateVariable[] | null;
 }
 
-export function TemplateHeader({ variableList }: TemplateHeaderProps) {
+export function TemplateHeader({ variables }: TemplateHeaderProps) {
   const { activeItem } = useTemplateStore();
 
   function handleSave() {
     // TODO: PATCH /templates/:id API 요청 구현
-    console.log(variableList);
+    console.log(variables);
   }
 
   return (

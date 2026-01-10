@@ -1,19 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { PreviewPanel } from '@/components/preview';
 import { AppSidebar } from '@/components/sidebar';
 import { SiteHeader } from '@/components/site-header';
-import { TemplatePanel } from '@/components/template';
+import { TemplateWorkspace } from '@/components/template/template-workspace';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { useTemplates } from '@/hooks/use-templates';
 import { useTemplateStore } from '@/stores/template-store';
-import type { TemplateVariable } from '@/types/template';
 
 export default function TemplatesPage() {
   const { data, error } = useTemplates();
   const { activeItem } = useTemplateStore();
-
-  const [variableList, setVariableList] = useState<TemplateVariable[]>(activeItem.variables ?? []);
 
   useEffect(() => {
     if (data) console.log('data from backend:', data);
@@ -27,14 +23,7 @@ export default function TemplatesPage() {
         <SiteHeader />
 
         <div className="flex flex-1 overflow-hidden pt-14">
-          <TemplatePanel
-            setVariableList={setVariableList}
-            variableList={variableList}
-          />
-
-          <PreviewPanel
-            variables={variableList}
-          />
+          <TemplateWorkspace key={activeItem.id} />
         </div>
       </div>
     </SidebarProvider >

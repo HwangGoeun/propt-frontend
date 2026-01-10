@@ -2,6 +2,7 @@ import type { Template } from '@/types/template';
 
 export const basicTemplates: Template[] = [
   {
+    id: 'basic-1',
     title: '과제 평가',
     description: '과제를 평가하고 피드백을 제공합니다.',
     content: '{학생}의 과제를 평가해주세요:\n\n{과제 내용}',
@@ -11,6 +12,7 @@ export const basicTemplates: Template[] = [
     ],
   },
   {
+    id: 'basic-2',
     title: '요약하기',
     description: '긴 텍스트를 요약합니다.',
     content: '다음 텍스트를 요약해주세요:\n\n{텍스트}',
@@ -19,6 +21,7 @@ export const basicTemplates: Template[] = [
     ],
   },
   {
+    id: 'basic-3',
     title: '번역하기',
     description: '텍스트를 번역합니다.',
     content: '{텍스트}를 {언어}로 번역해주세요:',
@@ -28,6 +31,7 @@ export const basicTemplates: Template[] = [
     ],
   },
   {
+    id: 'basic-4',
     title: '계산하기',
     description: '수식을 계산합니다.',
     content: '다음 수식을 계산해주세요:\n\n{수식}',
