@@ -5,17 +5,19 @@ import { VariableBlock } from '@/components/template/variable-block';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { extractVariablesFromPrompt } from '@/lib/template-utils';
-import type { Template, TemplateVariable } from '@/types/template';
+import { useTemplateStore } from '@/stores/template-store';
+import type { TemplateVariable } from '@/types/template';
 
 interface TextBlockProps {
-  activeItem: Template
   order: number;
   setVariableList: (variables: TemplateVariable[]) => void;
   variableList: TemplateVariable[] | [];
 }
 
 // TODO: 변수 설명 입력칸 구현 필요
-export function TextBlock({ activeItem, order, setVariableList, variableList }: TextBlockProps) {
+export function TextBlock({ order, setVariableList, variableList }: TextBlockProps) {
+  const { activeItem } = useTemplateStore();
+
   const [promptContent, setPromptContent] = useState(activeItem.content);
 
   function handleTextInput(e: ChangeEvent<HTMLTextAreaElement>) {

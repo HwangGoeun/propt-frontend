@@ -3,12 +3,7 @@ import type { Template, TemplateResponseDto } from '@/types/template';
 
 import { NavGroup } from './nav-group';
 
-interface MyTemplaetGroupProps {
-  activeItem: Template;
-  onItemSelect: (item: string) => void;
-}
-
-export function MyTemplateGroup({ activeItem, onItemSelect }: MyTemplaetGroupProps) {
+export function MyTemplateGroup() {
   const { data: templates = [] } = useTemplates();
 
   const items: Template[] = (templates ?? []).map((template: TemplateResponseDto): Template => ({
@@ -23,8 +18,6 @@ export function MyTemplateGroup({ activeItem, onItemSelect }: MyTemplaetGroupPro
     <NavGroup
       title={'My Templates'}
       items={items}
-      activeItem={activeItem}
-      onItemSelect={onItemSelect}
       isMyTemplate={true}
     />
   );

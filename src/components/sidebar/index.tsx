@@ -11,16 +11,10 @@ import {
 } from '@/components/ui/sidebar';
 import { basicTemplates } from '@/data/templates';
 import { useAuthStore } from '@/stores/auth-store';
-import type { Template } from '@/types/template';
 
 import { MyTemplateGroup } from './my-template-group';
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  activeItem: Template;
-  onItemSelect: (item: string) => void;
-}
-
-export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarProps) {
+export function AppSidebar({ ...props }) {
   const { user, logout } = useAuthStore();
 
   return (
@@ -33,16 +27,10 @@ export function AppSidebar({ activeItem, onItemSelect, ...props }: AppSidebarPro
       </SidebarHeader>
 
       <SidebarContent className="bg-muted/10 px-2 gap-2">
-        <MyTemplateGroup
-          activeItem={activeItem}
-          onItemSelect={onItemSelect}
-        />
-
+        <MyTemplateGroup />
         <NavGroup
-          title="basic template"
+          title={'basic templates'}
           items={basicTemplates}
-          activeItem={activeItem}
-          onItemSelect={onItemSelect}
         />
       </SidebarContent>
 

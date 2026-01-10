@@ -1,12 +1,14 @@
 import { Card, CardContent } from '@/components/ui/card';
-import type { Template, TemplateVariable } from '@/types/template';
+import { useTemplateStore } from '@/stores/template-store';
+import type { TemplateVariable } from '@/types/template';
 
 interface PreviewCardProps {
-  activeItem: Template;
   variables: TemplateVariable[] | [];
 }
 
-export function PreviewCard({ activeItem, variables }: PreviewCardProps) {
+export function PreviewCard({ variables }: PreviewCardProps) {
+  const { activeItem } = useTemplateStore();
+
   return (
     <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
       <CardContent className="p-6 space-y-4 text-sm">

@@ -8,13 +8,11 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import type { Template } from '@/types/template';
+import { useTemplateStore } from '@/stores/template-store';
 
-interface SiteHeaderBreadcrumbProps {
-  activeItem: Template;
-}
+export function SiteHeaderBreadcrumb() {
+  const { activeItem } = useTemplateStore();
 
-export function SiteHeaderBreadcrumb({ activeItem }: SiteHeaderBreadcrumbProps) {
   return (
     <>
       <SidebarTrigger className="-ml-1" />
