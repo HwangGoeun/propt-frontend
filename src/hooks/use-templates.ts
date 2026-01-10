@@ -46,3 +46,16 @@ export function useUpdateTemplate(id: string) {
     }
   });
 }
+
+export function useDeleteTemplate() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: templateApi.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['templates'],
+      });
+    },
+  });
+}

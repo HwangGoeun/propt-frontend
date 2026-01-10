@@ -29,7 +29,7 @@ export function NavItem({
       >
         <span>{item.title}</span>
       </SidebarMenuButton>
-      {isMyTemplate && <NavActionsMenu />}
+      {isMyTemplate && <NavActionsMenu id={item.id} />}
     </SidebarMenuItem>
   );
 }
