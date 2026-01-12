@@ -20,4 +20,10 @@ export const authApi = {
 
     return response.data;
   },
+
+  guestLogin: async (): Promise<ApiResponse<void>> => {
+    const response = await apiClient.post('/auth/guest');
+
+    return response.data;
+  },
 };

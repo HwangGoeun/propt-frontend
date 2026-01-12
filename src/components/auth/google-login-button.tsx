@@ -11,11 +11,11 @@ export function GoogleLoginButton() {
       onClick={handleGoogleLogin}
       variant="outline"
       type="button"
-      className="w-full gap-3 font-medium"
+      className="w-full gap-3 font-medium cursor-pointer"
       style={{ fontFamily: "'Roboto', sans-serif" }}
     >
       <GoogleIcon />
-      Continue with Google
+      Google로 시작하기
     </Button>
   );
 }
