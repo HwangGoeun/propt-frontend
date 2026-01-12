@@ -9,7 +9,6 @@ export function MyTemplateGroup() {
   const items: Template[] = (templates ?? []).map((template: TemplateResponseDto): Template => ({
     id: template.id,
     title: template.title,
-    description: template.description,
     content: template.content,
     variables: template.variables
   }));

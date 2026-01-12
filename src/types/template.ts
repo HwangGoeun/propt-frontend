@@ -12,7 +12,6 @@ export interface TemplateVariable {
 export interface TemplateResponseDto {
   id: string;
   title: string;
-  description: string;
   content: string;
   variables: TemplateVariable[];
   createdAt: string;
@@ -22,14 +21,12 @@ export interface TemplateResponseDto {
 export interface Template {
   id: string;
   title: string;
-  description: string;
   content: string;
   variables: TemplateVariable[];
 }
 
 export interface CreateTemplateDto {
   title: string;
-  description: string | null;
   content: string | null;
   variables: TemplateVariable[];
 }

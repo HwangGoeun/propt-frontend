@@ -26,7 +26,6 @@ export function AppSidebar({ ...props }) {
 
     createTemplate({
       title: newTitle,
-      description: null,
       content: '프롬프트를 입력해주세요.',
       variables: [],
     });
