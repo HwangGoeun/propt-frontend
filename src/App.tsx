@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { ProtectedRoute } from './components/auth/protected-route';
 import LoginPage from './pages/login';
+import McpCodePage from './pages/mcp-code';
 import TemplatesPage from './pages/templates';
 import { useAuthStore } from './stores/auth-store';
 
@@ -19,6 +20,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/mcp/code" element={<McpCodePage />} />
         <Route
           path="/templates"
           element={
