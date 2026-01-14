@@ -10,10 +10,15 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
+interface LoginFormProps extends React.ComponentProps<'div'> {
+  state: string | null;
+}
+
 export function LoginForm({
   className,
+  state,
   ...props
-}: React.ComponentProps<'div'>) {
+}: LoginFormProps) {
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -24,9 +29,9 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <GoogleLoginButton />
+          <GoogleLoginButton state={state} />
           <DividerWithText />
-          <GuestLoginButton />
+          <GuestLoginButton state={state} />
         </CardContent>
       </Card>
     </div >

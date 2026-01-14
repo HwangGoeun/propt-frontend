@@ -1,12 +1,14 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 import { LoginForm } from '@/components/auth/login-form';
 import { useAuthStore } from '@/stores/auth-store';
 
 export default function LoginPage() {
   const { authStatus } = useAuthStore();
+  const [searchParams] = useSearchParams();
+  const state = searchParams.get('state');
 
-  if (authStatus === 'authenticated') {
+  if (authStatus === 'authenticated' && state !== 'mcp') {
     return <Navigate to="/templates" replace />;
   }
 
@@ -16,7 +18,7 @@ export default function LoginPage() {
         <p className="flex items-center gap-2 self-center font-medium text-foreground">
           Propt: Build Pipelines, Not Chat Rooms.
         </p>
-        <LoginForm />
+        <LoginForm state={state} />
       </div>
     </div>
   );

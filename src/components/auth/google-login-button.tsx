@@ -1,9 +1,16 @@
 import { Button } from '@/components/ui/button';
 
-export function GoogleLoginButton() {
+interface GoogleLoginButtonProps {
+  state: string | null;
+}
+
+export function GoogleLoginButton({ state }: GoogleLoginButtonProps) {
   const handleGoogleLogin = () => {
     const baseUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
-    window.location.href = `${baseUrl}/auth/google`;
+    const url = state 
+      ? `${baseUrl}/auth/google?state=${state}` 
+      : `${baseUrl}/auth/google`;
+    window.location.href = url;
   };
 
   return (

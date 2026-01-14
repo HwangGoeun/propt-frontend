@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button';
 import { authApi } from '@/lib/api/auth';
 import { useAuthStore } from '@/stores/auth-store';
 
-export function GuestLoginButton() {
+interface GuestLoginButtonProps {
+  state: string | null;
+}
+
+export function GuestLoginButton({ state }: GuestLoginButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { checkAuthStatus } = useAuthStore();
@@ -14,7 +18,15 @@ export function GuestLoginButton() {
   const handleGuestLogin = async () => {
     setIsLoading(true);
     try {
-      await authApi.guestLogin();
+      const response = await authApi.guestLogin(state);
+      
+      // MCP 로그인인 경우 코드 페이지로 리다이렉트
+      if (state === 'mcp' && response.ok && response.data?.code) {
+        navigate(`/mcp/code?code=${response.data.code}`);
+        return;
+      }
+      
+      // 일반 로그인인 경우 템플릿 페이지로 이동
       await checkAuthStatus();
       navigate('/templates');
     } catch (error) {
