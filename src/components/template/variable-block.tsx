@@ -19,6 +19,7 @@ export function VariableBlock({ variable }: VariableBlockProps) {
 
   function handleBlur() {
     setIsEditing(false);
+    if (!activeItem) return;
 
     const newVariables = (activeItem.variables ?? []).map((v) =>
       v.name === variable.name
