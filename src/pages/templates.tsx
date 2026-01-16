@@ -8,13 +8,36 @@ import { useTemplates } from '@/hooks/use-templates';
 import { useTemplateStore } from '@/stores/template-store';
 
 export default function TemplatesPage() {
-  const { activeItem } = useTemplateStore();
-  const { data, error } = useTemplates();
+  const { activeItem, setActiveItem } = useTemplateStore();
+  const { data: templates = [], error, isLoading } = useTemplates();
 
   useEffect(() => {
-    if (data) console.log('data from backend:', data);
+    if (isLoading) return;
+
+    if (templates && templates.length > 0) {
+      const hasActiveItem = activeItem !== null;
+      const activeItemId = activeItem?.id;
+      const templateExistsInList = templates.some(t => t.id === activeItemId);
+
+      const isActiveItemInList = hasActiveItem && templateExistsInList;
+
+      if (!isActiveItemInList) {
+        const firstTemplate = {
+          id: templates[0].id,
+          title: templates[0].title,
+          content: templates[0].content,
+          variables: templates[0].variables
+        };
+        setActiveItem(firstTemplate);
+      }
+    } else if (activeItem !== null) {
+      setActiveItem(null);
+    }
+  }, [templates, setActiveItem, isLoading, activeItem]);
+
+  useEffect(() => {
     if (error) console.error('error:', error);
-  }, [data, error]);
+  }, [error]);
 
   return (
     <SidebarProvider>
@@ -23,7 +46,16 @@ export default function TemplatesPage() {
         <SiteHeader />
 
         <div className="flex flex-1 overflow-hidden pt-14">
-          <TemplateWorkspace key={activeItem.id} />
+          {activeItem ? (
+            <TemplateWorkspace key={activeItem.id} />
+          ) : (
+            <div className="flex flex-1 items-center justify-center text-muted-foreground">
+              <div className="text-center">
+                <p className="text-lg">템플릿이 없습니다</p>
+                <p className="text-sm mt-2">새로운 템플릿을 생성해보세요!</p>
+              </div>
+            </div>
+          )}
         </div>
       </div >
     </SidebarProvider >

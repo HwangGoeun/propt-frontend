@@ -1,16 +1,18 @@
 import { create } from 'zustand';
 
-import { basicTemplates } from '@/data/templates';
 import type { Template } from '@/types/template';
 
 interface TemplateState {
-  activeItem: Template;
-  setActiveItem: (template: Template) => void;
+  activeItem: Template | null;
+  isInitialized: boolean;
+  setActiveItem: (template: Template | null) => void;
   updateActiveItem: (updates: Partial<Template>) => void;
+  initializeActiveItem: (template: Template | null) => void;
 }
 
-export const useTemplateStore = create<TemplateState>((set) => ({
-  activeItem: { ...basicTemplates[0] },
+export const useTemplateStore = create<TemplateState>((set, get) => ({
+  activeItem: null,
+  isInitialized: false,
 
   setActiveItem: (template) => {
     set({ activeItem: template });
@@ -18,7 +20,18 @@ export const useTemplateStore = create<TemplateState>((set) => ({
 
   updateActiveItem: (updates) => {
     set((state) => ({
-      activeItem: { ...state.activeItem, ...updates },
+      activeItem: state.activeItem ? { ...state.activeItem, ...updates } : null,
     }));
+  },
+
+  initializeActiveItem: (template) => {
+    const { isInitialized } = get();
+    // 템플릿이 있을 때만 초기화된 것으로 간주
+    if (!isInitialized && template) {
+      set({ activeItem: template, isInitialized: true });
+    } else if (!template) {
+      // 템플릿이 없으면 activeItem을 null로 설정 (초기화 상태는 유지하지 않음)
+      set({ activeItem: null });
+    }
   },
 }));

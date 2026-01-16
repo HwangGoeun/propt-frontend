@@ -22,7 +22,7 @@ export interface Template {
   id: string;
   title: string;
   content: string;
-  variables: TemplateVariable[];
+  variables: TemplateVariable[] | [];
 }
 
 export interface CreateTemplateDto {
