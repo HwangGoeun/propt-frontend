@@ -9,15 +9,19 @@ import { useTemplateStore } from '@/stores/template-store';
 
 export function TemplateHeader() {
   const { activeItem, updateActiveItem } = useTemplateStore();
-  const { mutate: updateTemplate } = useUpdateTemplate(activeItem.id);
-
   const [isEditing, setIsEditing] = useState(false);
+  
+  // Hooks를 먼저 호출한 후 조건부 렌더링
+  const { mutate: updateTemplate } = useUpdateTemplate(activeItem?.id ?? '');
+  
+  // activeItem이 null이면 렌더링하지 않음
+  if (!activeItem) return null;
 
   function handleSave() {
     updateTemplate({
-      title: activeItem.title,
-      content: activeItem.content,
-      variables: activeItem.variables ?? [],
+      title: activeItem!.title,
+      content: activeItem!.content,
+      variables: activeItem!.variables,
     });
     setIsEditing(false);
   }

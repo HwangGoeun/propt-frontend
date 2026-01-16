@@ -26,7 +26,7 @@ export function SiteHeaderBreadcrumb() {
           </BreadcrumbItem>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>
-            <BreadcrumbPage>{activeItem.title}</BreadcrumbPage>
+            <BreadcrumbPage>{activeItem?.title ?? 'Templates'}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

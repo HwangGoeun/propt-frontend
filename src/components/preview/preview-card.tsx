@@ -4,6 +4,9 @@ import { useTemplateStore } from '@/stores/template-store';
 export function PreviewCard() {
   const { activeItem } = useTemplateStore();
 
+  // activeItem이 null이면 렌더링하지 않음
+  if (!activeItem) return null;
+
   return (
     <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
       <CardContent className="p-6 space-y-4 text-sm">

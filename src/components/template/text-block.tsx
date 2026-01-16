@@ -10,6 +10,9 @@ import { useTemplateStore } from '@/stores/template-store';
 export function TextBlock({ order }: { order: number }) {
   const { activeItem, updateActiveItem } = useTemplateStore();
 
+  // activeItem이 null이면 렌더링하지 않음
+  if (!activeItem) return null;
+
   function handleTextInput(e: ChangeEvent<HTMLTextAreaElement>) {
     const newPrompt = e.target.value;
 

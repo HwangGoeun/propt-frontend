@@ -1,6 +1,5 @@
 import { Plus } from 'lucide-react';
 
-import { NavGroup } from '@/components/sidebar/nav-group';
 import { NavUser } from '@/components/sidebar/nav-user';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,7 +8,6 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
-import { basicTemplates } from '@/data/templates';
 import { useCreateTemplate, useTemplates } from '@/hooks/use-templates';
 import { getUniqueTitle } from '@/lib/template-utils';
 import { useAuthStore } from '@/stores/auth-store';
@@ -46,10 +44,6 @@ export function AppSidebar({ ...props }) {
 
       <SidebarContent className="bg-muted/10 px-2 gap-2">
         <MyTemplateGroup />
-        <NavGroup
-          title={'basic templates'}
-          items={basicTemplates}
-        />
       </SidebarContent>
 
       {user && (
