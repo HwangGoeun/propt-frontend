@@ -12,30 +12,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-const NOTION_CONFIG = `{
+const PROPT_CONFIG = `{
   "mcpServers": {
-    "notion": {
+    "propt": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-notion"
-      ],
-      "env": {
-        "NOTION_API_KEY": "secret_..."
-      }
-    }
-  }
-}`;
-
-const FILESYSTEM_CONFIG = `{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/path/to/allowed/directory"
-      ]
+      "args": ["-y", "propt-mcp"]
     }
   }
 }`;
@@ -99,19 +80,39 @@ export function MCPServerGuideModal() {
         </DialogHeader>
         <div className="space-y-6 py-4">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">추천 서버</h3>
-            <CodeBlock title="Notion 서버" code={NOTION_CONFIG} />
-            <CodeBlock title="파일시스템 (Filesystem) 서버" code={FILESYSTEM_CONFIG} />
+            <CodeBlock title="Claude Code / Claude Desktop 설정" code={PROPT_CONFIG} />
           </div>
 
           <div className="rounded-lg border bg-card p-4 text-card-foreground shadow-sm">
-            <h4 className="font-semibold mb-2">사용 방법</h4>
-            <ol className="list-decimal list-inside text-sm space-y-2 text-muted-foreground">
-              <li>MCP 클라이언트 설정 파일(예: config.json)을 엽니다.</li>
-              <li>사용하려는 서버의 설정을 복사합니다.</li>
-              <li>설정 파일의 <code>mcpServers</code> 섹션에 붙여넣습니다.</li>
-              <li>변경 사항을 적용하려면 애플리케이션을 다시 시작하세요.</li>
+            <h4 className="font-semibold mb-2">설치 방법</h4>
+            <ol className="list-decimal list-inside text-sm space-y-3 text-muted-foreground">
+              <li>
+                <strong>Claude Code:</strong>
+                <div className="mt-1 ml-4">
+                  <code className="bg-muted px-1 rounded text-xs">cd ~/.claude && open settings.json</code>
+                </div>
+              </li>
+              <li>
+                <strong>Claude Desktop (macOS):</strong>
+                <div className="mt-1 ml-4">
+                  <code className="bg-muted px-1 rounded text-xs">cd ~/Library/Application\ Support/Claude && open claude_desktop_config.json</code>
+                </div>
+              </li>
+              <li>위 설정을 파일에 추가하고 저장합니다.</li>
+              <li>애플리케이션을 재시작합니다.</li>
+              <li><code className="bg-muted px-1 rounded">propt_auth_login</code> 도구로 로그인하면 사용 준비 완료!</li>
             </ol>
+          </div>
+
+          <div className="rounded-lg border bg-card p-4 text-card-foreground shadow-sm">
+            <h4 className="font-semibold mb-2">제공 도구</h4>
+            <ul className="text-sm space-y-1 text-muted-foreground">
+              <li><code className="bg-muted px-1 rounded">propt_auth_login</code> - Propt 로그인</li>
+              <li><code className="bg-muted px-1 rounded">propt_auth_logout</code> - 로그아웃</li>
+              <li><code className="bg-muted px-1 rounded">propt_template_list</code> - 템플릿 목록 조회</li>
+              <li><code className="bg-muted px-1 rounded">propt_get_template</code> - 템플릿 상세 조회</li>
+              <li><code className="bg-muted px-1 rounded">propt_prepare_batch</code> - 배치 실행 준비</li>
+            </ul>
           </div>
         </div>
       </DialogContent>
