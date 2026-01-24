@@ -4,6 +4,8 @@ export interface NavItemData {
   label: string;
 }
 
+export type SaveStatus = 'idle' | 'editing' | 'saving' | 'saved' | 'error';
+
 export interface TemplateVariable {
   name: string;
   description?: string | null;
