@@ -1,19 +1,23 @@
-import { NavItem } from '@/components/sidebar/nav-item';
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useTemplateStore } from '@/stores/template-store';
+import type { OptionItem,OptionNavGroupProps, TemplateNavGroupProps } from '@/types/sidebar';
 import type { Template } from '@/types/template';
 
-interface NavGroupProps extends React.ComponentProps<typeof SidebarGroup> {
+import { NavActionsMenu } from './nav-actions-menu';
+
+interface NavGroupBaseProps {
   title: string;
-  items: Template[];
-  isMyTemplate?: boolean;
+  children: React.ReactNode;
 }
 
-export function NavGroup({ title, items, isMyTemplate = false }: NavGroupProps) {
+function NavGroupBase({ title, children }: NavGroupBaseProps) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1">
@@ -21,16 +25,72 @@ export function NavGroup({ title, items, isMyTemplate = false }: NavGroupProps) 
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <NavItem
-              key={item.title}
-              item={item}
-              isMyTemplate={isMyTemplate}
-            />
-          ))}
+          {children}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
   );
 }
 
+interface TemplateNavItemProps {
+  item: Template;
+}
+
+function TemplateNavItem({ item }: TemplateNavItemProps) {
+  const { activeItem, setActiveItem } = useTemplateStore();
+
+  return (
+    <SidebarMenuItem className="group/item">
+      <SidebarMenuButton
+        size="sm"
+        className="h-8 font-normal gap-2"
+        isActive={activeItem?.id === item.id}
+        onClick={() => setActiveItem(item)}
+      >
+        <span>{item.title}</span>
+      </SidebarMenuButton>
+      <NavActionsMenu id={item.id} />
+    </SidebarMenuItem>
+  );
+}
+
+interface OptionNavItemProps {
+  option: OptionItem;
+}
+
+function OptionNavItem({ option }: OptionNavItemProps) {
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton
+        onClick={option.onClick}
+        className="gap-2"
+      >
+        {option.icon}
+        <span>{option.label}</span>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
+
+export function TemplateNavGroup({ title, items }: TemplateNavGroupProps) {
+  return (
+    <NavGroupBase title={title}>
+      {items.map((item) => (
+        <TemplateNavItem
+          key={item.id}
+          item={item}
+        />
+      ))}
+    </NavGroupBase>
+  );
+}
+
+export function OptionNavGroup({ title, options }: OptionNavGroupProps) {
+  return (
+    <NavGroupBase title={title}>
+      {options.map((option) => (
+        <OptionNavItem key={option.id} option={option} />
+      ))}
+    </NavGroupBase>
+  );
+}
