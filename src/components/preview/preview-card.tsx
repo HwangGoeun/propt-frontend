@@ -14,12 +14,10 @@ export function PreviewCard() {
     <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
       <CardContent className="p-6 space-y-4 text-sm">
         <div className="space-y-1">
-          <p className="font-semibold text-blue-600">사용자: /{activeItem.title}</p>
+          <p className="font-semibold text-blue-600">프로프트 {activeItem.title}</p>
         </div>
 
         <div className="space-y-2">
-          <p className="font-semibold text-purple-600">Claude: 변수를 입력해주세요</p>
-
           {(activeItem.variables ?? []).map((variable) => (
             <div
               key={variable.name}
