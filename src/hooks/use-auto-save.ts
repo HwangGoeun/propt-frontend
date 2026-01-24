@@ -31,6 +31,7 @@ export function useAutoSave() {
       title: activeItem!.title,
       content: activeItem!.content,
       variables: activeItem!.variables,
+      outputType: activeItem!.outputType,
     };
 
     const mutationOptions = {
@@ -80,6 +81,7 @@ export function useAutoSave() {
       title: activeItem.title,
       content: activeItem.content,
       variables: activeItem.variables,
+      outputType: activeItem.outputType,
     });
 
     if (initializeStateForNewTemplate(currentData)) {
@@ -106,6 +108,7 @@ export function useAutoSave() {
       title: activeItem.title,
       content: activeItem.content,
       variables: activeItem.variables,
+      outputType: activeItem.outputType,
     });
 
     return currentData !== lastSavedRef.current;
