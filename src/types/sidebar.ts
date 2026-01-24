@@ -15,6 +15,7 @@ export interface OptionItem {
   label: string;
   icon: React.ReactNode;
   onClick: () => void;
+  isActive: boolean;
 }
 
 export interface OptionNavGroupProps extends BaseNavGroupProps {

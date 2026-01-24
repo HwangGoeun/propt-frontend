@@ -13,10 +13,12 @@ import { SIDEBAR_OPTIONS } from '@/constants/sidebar-options';
 import { useCreateTemplate, useTemplates } from '@/hooks/use-templates';
 import { getUniqueTitle } from '@/lib/template-utils';
 import { useAuthStore } from '@/stores/auth-store';
+import { useTemplateStore } from '@/stores/template-store';
 import type { OptionItem } from '@/types/sidebar';
 
 export function AppSidebar({ ...props }) {
   const { user, logout } = useAuthStore();
+  const { showOutputTypeBlock, setShowOutputTypeBlock, activeItem } = useTemplateStore();
   const { data: templates = [] } = useTemplates();
   const { mutate: createTemplate } = useCreateTemplate();
 
@@ -27,13 +29,19 @@ export function AppSidebar({ ...props }) {
       title: newTitle,
       content: '프롬프트를 입력해주세요.',
       variables: [],
+      outputType: null,
     });
   };
 
   const optionItems: OptionItem[] = [
     {
       ...SIDEBAR_OPTIONS.OUTPUT_TYPE,
-      onClick: () => {/* TODO: 출력 타입 블록 표시 */ },
+      onClick: () => {
+        if (!showOutputTypeBlock) {
+          setShowOutputTypeBlock(true);
+        }
+      },
+      isActive: showOutputTypeBlock || !!activeItem?.outputType,
     },
   ];
 

@@ -13,12 +13,13 @@ export function VariableBlock({ variable }: VariableBlockProps) {
   const { activeItem, updateActiveItem } = useTemplateStore();
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(variable.description);
-  
-  // activeItem이 null이면 렌더링하지 않음
+
   if (!activeItem) return null;
 
   function handleBlur() {
     setIsEditing(false);
+    if (!activeItem) return;
+
     if (!activeItem) return;
 
     const newVariables = (activeItem.variables ?? []).map((v) =>
