@@ -1,11 +1,14 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { getOutputTypeInstruction } from '@/lib/output-type-utils';
 import { useTemplateStore } from '@/stores/template-store';
 
 export function PreviewCard() {
   const { activeItem } = useTemplateStore();
 
-  // activeItem이 null이면 렌더링하지 않음
   if (!activeItem) return null;
+
+  const outputType = activeItem.outputType;
+  const outputInstruction = getOutputTypeInstruction(outputType);
 
   return (
     <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
@@ -30,6 +33,12 @@ export function PreviewCard() {
         <div className="pt-2 text-xs text-muted-foreground">
           <p>→ 입력 완료 후 실행</p>
         </div>
+
+        {outputInstruction && (
+          <div className="text-xs text-muted-foreground border-t pt-2 mt-2">
+            💾 {outputInstruction}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

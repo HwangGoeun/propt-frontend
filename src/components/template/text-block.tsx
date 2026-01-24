@@ -7,10 +7,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { extractVariablesFromPrompt } from '@/lib/template-utils';
 import { useTemplateStore } from '@/stores/template-store';
 
-export function TextBlock({ order }: { order: number }) {
+export function TextBlock() {
   const { activeItem, updateActiveItem } = useTemplateStore();
 
-  // activeItem이 null이면 렌더링하지 않음
   if (!activeItem) return null;
 
   function handleTextInput(e: ChangeEvent<HTMLTextAreaElement>) {
@@ -24,8 +23,7 @@ export function TextBlock({ order }: { order: number }) {
 
   return (
     <BlockWrapper
-      order={order}
-      title={'텍스트 입력'}>
+      title="텍스트 입력">
       <Textarea
         onChange={handleTextInput}
         placeholder={'\'{문장}\'을 {언어}로 번역해주세요.'}
