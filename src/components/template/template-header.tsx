@@ -46,7 +46,7 @@ export function TemplateHeader() {
               <Pencil className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           )}
-          <p className="text-sm text-muted-foreground mt-1">{`Claude.ai에서 /${activeItem.title} 명령으로 사용 가능`}</p>
+          <p className="text-sm text-muted-foreground mt-1">{`"프로프트 ${activeItem.title}" 명령어를 입력하여 실행해보세요!`}</p>
         </div>
 
         <div className="flex items-center gap-2">
