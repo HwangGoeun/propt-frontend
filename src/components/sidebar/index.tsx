@@ -1,5 +1,6 @@
 import { Plus } from 'lucide-react';
 
+import { OptionNavGroup, TemplateNavGroup } from '@/components/sidebar/nav-group';
 import { NavUser } from '@/components/sidebar/nav-user';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,11 +9,11 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
+import { SIDEBAR_OPTIONS } from '@/constants/sidebar-options';
 import { useCreateTemplate, useTemplates } from '@/hooks/use-templates';
 import { getUniqueTitle } from '@/lib/template-utils';
 import { useAuthStore } from '@/stores/auth-store';
-
-import { MyTemplateGroup } from './my-template-group';
+import type { OptionItem } from '@/types/sidebar';
 
 export function AppSidebar({ ...props }) {
   const { user, logout } = useAuthStore();
@@ -29,6 +30,13 @@ export function AppSidebar({ ...props }) {
     });
   };
 
+  const optionItems: OptionItem[] = [
+    {
+      ...SIDEBAR_OPTIONS.OUTPUT_TYPE,
+      onClick: () => {/* TODO: 출력 타입 블록 표시 */ },
+    },
+  ];
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="bg-muted/10 p-4 border-b-0">
@@ -43,7 +51,15 @@ export function AppSidebar({ ...props }) {
       </SidebarHeader>
 
       <SidebarContent className="bg-muted/10 px-2 gap-2">
-        <MyTemplateGroup />
+        <TemplateNavGroup
+          title="MY TEMPLATES"
+          items={templates}
+        />
+
+        <OptionNavGroup
+          title="OPTIONS"
+          options={optionItems}
+        />
       </SidebarContent>
 
       {user && (
