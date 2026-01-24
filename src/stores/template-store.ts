@@ -6,16 +6,19 @@ interface TemplateState {
   activeItem: Template | null;
   isInitialized: boolean;
   saveStatus: SaveStatus;
+  showOutputTypeBlock: boolean;
   setActiveItem: (template: Template | null) => void;
   updateActiveItem: (updates: Partial<Template>) => void;
   initializeActiveItem: (template: Template | null) => void;
   setSaveStatus: (status: SaveStatus) => void;
+  setShowOutputTypeBlock: (show: boolean) => void;
 }
 
 export const useTemplateStore = create<TemplateState>((set, get) => ({
   activeItem: null,
   isInitialized: false,
   saveStatus: 'idle',
+  showOutputTypeBlock: false,
 
   setActiveItem: (template) => {
     set({ activeItem: template });
@@ -38,5 +41,9 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
 
   setSaveStatus: (status) => {
     set({ saveStatus: status });
+  },
+
+  setShowOutputTypeBlock: (show) => {
+    set({ showOutputTypeBlock: show });
   },
 }));
