@@ -9,19 +9,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-interface LengthLimitBlockProps {
-  order: number;
-}
-
 const LENGTH_LIMITS = ['100', '200', '500', '1000'] as const;
 type LengthLimit = typeof LENGTH_LIMITS[number];
 
-export function LengthLimitBlock({ order }: LengthLimitBlockProps) {
+export function LengthLimitBlock() {
   const [lengthLimit, setLengthLimit] = useState<LengthLimit>('100');
 
   return (
     <BlockWrapper
-      order={order}
       title={'길이 제한'}
     >
       <p className="text-sm">{`각 결과는 최대 ${lengthLimit} 단어 이내로 작성해주세요`}</p>

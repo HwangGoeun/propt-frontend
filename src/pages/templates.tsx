@@ -26,7 +26,8 @@ export default function TemplatesPage() {
           id: templates[0].id,
           title: templates[0].title,
           content: templates[0].content,
-          variables: templates[0].variables
+          variables: templates[0].variables,
+          outputType: templates[0].outputType ?? null
         };
         setActiveItem(firstTemplate);
       }
