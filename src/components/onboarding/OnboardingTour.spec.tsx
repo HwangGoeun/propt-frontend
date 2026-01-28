@@ -1,4 +1,4 @@
-import { act,fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
@@ -342,6 +342,10 @@ describe('OnboardingTour', () => {
 
       const { rerender } = render(<OnboardingTour />);
 
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      });
+
       // 모달 닫힘 시뮬레이션
       await act(async () => {
         useOnboardingStore.setState({ isMcpGuideModalOpen: false });
@@ -349,7 +353,9 @@ describe('OnboardingTour', () => {
 
       rerender(<OnboardingTour />);
 
-      expect(screen.getByText('축하합니다!')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText('축하합니다!')).toBeInTheDocument();
+      });
       expect(screen.getByText(/프로프트 사용법 체험을 모두 완료했습니다/)).toBeInTheDocument();
     });
 
@@ -363,10 +369,18 @@ describe('OnboardingTour', () => {
       const { rerender } = render(<OnboardingTour />);
 
       await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      });
+
+      await act(async () => {
         useOnboardingStore.setState({ isMcpGuideModalOpen: false });
       });
 
       rerender(<OnboardingTour />);
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: '시작하기' })).toBeInTheDocument();
+      });
 
       await act(async () => {
         fireEvent.click(screen.getByRole('button', { name: '시작하기' }));
