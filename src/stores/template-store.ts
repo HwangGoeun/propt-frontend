@@ -1,18 +1,24 @@
 import { create } from 'zustand';
 
-import type { Template } from '@/types/template';
+import type { SaveStatus, Template } from '@/types/template';
 
 interface TemplateState {
   activeItem: Template | null;
   isInitialized: boolean;
+  saveStatus: SaveStatus;
+  showOutputTypeBlock: boolean;
   setActiveItem: (template: Template | null) => void;
   updateActiveItem: (updates: Partial<Template>) => void;
   initializeActiveItem: (template: Template | null) => void;
+  setSaveStatus: (status: SaveStatus) => void;
+  setShowOutputTypeBlock: (show: boolean) => void;
 }
 
 export const useTemplateStore = create<TemplateState>((set, get) => ({
   activeItem: null,
   isInitialized: false,
+  saveStatus: 'idle',
+  showOutputTypeBlock: false,
 
   setActiveItem: (template) => {
     set({ activeItem: template });
@@ -26,12 +32,18 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
 
   initializeActiveItem: (template) => {
     const { isInitialized } = get();
-    // 템플릿이 있을 때만 초기화된 것으로 간주
     if (!isInitialized && template) {
-      set({ activeItem: template, isInitialized: true });
+      set({ activeItem: template, isInitialized: true, saveStatus: 'idle' });
     } else if (!template) {
-      // 템플릿이 없으면 activeItem을 null로 설정 (초기화 상태는 유지하지 않음)
-      set({ activeItem: null });
+      set({ activeItem: null, saveStatus: 'idle' });
     }
+  },
+
+  setSaveStatus: (status) => {
+    set({ saveStatus: status });
+  },
+
+  setShowOutputTypeBlock: (show) => {
+    set({ showOutputTypeBlock: show });
   },
 }));

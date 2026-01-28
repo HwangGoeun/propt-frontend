@@ -1,4 +1,4 @@
-import { ChevronsUpDown, LogOut } from 'lucide-react';
+import { BookOpen, ChevronsUpDown, LogOut } from 'lucide-react';
 
 import { UserInfo } from '@/components/common/user-info';
 import {
@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { useOnboardingStore } from '@/stores/onboarding-store';
 import type { User } from '@/types/auth';
 
 interface NavUserProps {
@@ -22,6 +23,12 @@ interface NavUserProps {
 
 export function NavUser({ user, onLogout }: NavUserProps) {
   const { isMobile } = useSidebar();
+  const { resetTour, startTour } = useOnboardingStore();
+
+  const handleRestartTour = () => {
+    resetTour();
+    startTour();
+  };
 
   return (
     <SidebarMenu>
@@ -42,9 +49,13 @@ export function NavUser({ user, onLogout }: NavUserProps) {
             align="end"
             sideOffset={4}
           >
+            <DropdownMenuItem onClick={handleRestartTour}>
+              <BookOpen className="h-4 w-4 mr-2" />
+              가이드 다시보기
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={onLogout}>
               <LogOut className="h-4 w-4 mr-2" />
-              Log out
+              로그아웃
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -3,19 +3,14 @@ import { useState } from 'react';
 import { BlockWrapper } from '@/components/common/block-wrapper';
 import { Button } from '@/components/ui/button';
 
-interface DataTypeBlockProps {
-  order: number;
-}
-
 const DATA_TYPES = ['table', 'list', 'paragraph', 'JSON'] as const;
 type DataType = typeof DATA_TYPES[number];
 
-export function DataTypeBlock({ order }: DataTypeBlockProps) {
+export function DataTypeBlock() {
   const [dataType, setDataType] = useState<DataType>('table');
 
   return (
     <BlockWrapper
-      order={order}
       title={'형식 지정'} >
       <p className="text-sm">결과를 다음 형식으로 작성해주세요</p>
       <div className="flex items-center gap-4 mt-2">

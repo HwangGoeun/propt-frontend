@@ -1,4 +1,3 @@
-
 import { Check, Copy, Server } from 'lucide-react';
 import { useState } from 'react';
 
@@ -11,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useOnboardingStore } from '@/stores/onboarding-store';
 
 const PROPT_CONFIG = `{
   "mcpServers": {
@@ -63,10 +63,18 @@ function CodeBlock({ title, code }: CodeBlockProps) {
 }
 
 export function MCPServerGuideModal() {
+  const { isTourRunning, currentStep, setMcpGuideModalOpen } = useOnboardingStore();
+
+  const handleOpenChange = (open: boolean) => {
+    if (isTourRunning && currentStep === 7) {
+      setMcpGuideModalOpen(open);
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button variant="outline" size="sm" className="gap-2" data-tour="mcp-guide">
           <Server className="h-4 w-4" />
           MCP 설정 가이드
         </Button>

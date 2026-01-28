@@ -4,6 +4,8 @@ export interface NavItemData {
   label: string;
 }
 
+export type SaveStatus = 'idle' | 'editing' | 'saving' | 'saved' | 'error';
+
 export interface TemplateVariable {
   name: string;
   description?: string | null;
@@ -14,6 +16,7 @@ export interface TemplateResponseDto {
   title: string;
   content: string;
   variables: TemplateVariable[];
+  outputType: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -23,10 +26,12 @@ export interface Template {
   title: string;
   content: string;
   variables: TemplateVariable[] | [];
+  outputType: string | null;
 }
 
 export interface CreateTemplateDto {
   title: string;
   content: string | null;
   variables: TemplateVariable[];
+  outputType: string | null;
 }

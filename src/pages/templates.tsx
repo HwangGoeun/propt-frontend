@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { AppSidebar } from '@/components/sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { TemplateWorkspace } from '@/components/template/template-workspace';
@@ -14,9 +15,11 @@ export default function TemplatesPage() {
   useEffect(() => {
     if (isLoading) return;
 
+    const currentActiveItem = useTemplateStore.getState().activeItem;
+
     if (templates && templates.length > 0) {
-      const hasActiveItem = activeItem !== null;
-      const activeItemId = activeItem?.id;
+      const hasActiveItem = currentActiveItem !== null;
+      const activeItemId = currentActiveItem?.id;
       const templateExistsInList = templates.some(t => t.id === activeItemId);
 
       const isActiveItemInList = hasActiveItem && templateExistsInList;
@@ -26,14 +29,15 @@ export default function TemplatesPage() {
           id: templates[0].id,
           title: templates[0].title,
           content: templates[0].content,
-          variables: templates[0].variables
+          variables: templates[0].variables,
+          outputType: templates[0].outputType ?? null
         };
         setActiveItem(firstTemplate);
       }
-    } else if (activeItem !== null) {
+    } else if (currentActiveItem !== null) {
       setActiveItem(null);
     }
-  }, [templates, setActiveItem, isLoading, activeItem]);
+  }, [templates, setActiveItem, isLoading]);
 
   useEffect(() => {
     if (error) console.error('error:', error);
@@ -41,6 +45,7 @@ export default function TemplatesPage() {
 
   return (
     <SidebarProvider>
+      <OnboardingTour />
       <AppSidebar className="mt-14 h-[calc(100svh-3.5rem)]" />
       <div className="flex h-screen w-full flex-col bg-background text-foreground font-sans">
         <SiteHeader />

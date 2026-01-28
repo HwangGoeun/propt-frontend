@@ -1,22 +1,23 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { getOutputTypeInstruction } from '@/lib/output-type-utils';
 import { useTemplateStore } from '@/stores/template-store';
 
 export function PreviewCard() {
   const { activeItem } = useTemplateStore();
 
-  // activeItem이 null이면 렌더링하지 않음
   if (!activeItem) return null;
 
+  const outputType = activeItem.outputType;
+  const outputInstruction = getOutputTypeInstruction(outputType);
+
   return (
-    <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
+    <Card className="border-none shadow-sm bg-white dark:bg-zinc-900" data-tour="preview-panel">
       <CardContent className="p-6 space-y-4 text-sm">
         <div className="space-y-1">
-          <p className="font-semibold text-blue-600">사용자: /{activeItem.title}</p>
+          <p className="font-semibold text-blue-600">프로프트 {activeItem.title}</p>
         </div>
 
         <div className="space-y-2">
-          <p className="font-semibold text-purple-600">Claude: 변수를 입력해주세요</p>
-
           {(activeItem.variables ?? []).map((variable) => (
             <div
               key={variable.name}
@@ -30,6 +31,12 @@ export function PreviewCard() {
         <div className="pt-2 text-xs text-muted-foreground">
           <p>→ 입력 완료 후 실행</p>
         </div>
+
+        {outputInstruction && (
+          <div className="text-xs text-muted-foreground border-t pt-2 mt-2">
+            💾 {outputInstruction}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

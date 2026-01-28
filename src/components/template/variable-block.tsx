@@ -13,20 +13,24 @@ export function VariableBlock({ variable }: VariableBlockProps) {
   const { activeItem, updateActiveItem } = useTemplateStore();
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(variable.description);
-  
-  // activeItem이 null이면 렌더링하지 않음
+
   if (!activeItem) return null;
 
-  function handleBlur() {
-    setIsEditing(false);
+  function handleChange(value: string) {
+    setDescription(value);
+
     if (!activeItem) return;
 
     const newVariables = (activeItem.variables ?? []).map((v) =>
       v.name === variable.name
-        ? { ...v, description: description ?? '' }
+        ? { ...v, description: value }
         : v
     );
     updateActiveItem({ variables: newVariables });
+  }
+
+  function handleBlur() {
+    setIsEditing(false);
   }
 
   return (
@@ -39,7 +43,7 @@ export function VariableBlock({ variable }: VariableBlockProps) {
       {isEditing ? (
         <Input
           value={description ?? ''}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleBlur();
@@ -53,7 +57,7 @@ export function VariableBlock({ variable }: VariableBlockProps) {
           className="w-full"
         >
           <div className="flex group gap-2 text-xs text-muted-foreground cursor-pointer">
-            <span>{description ?? '변수에 대한 설명을 입력해주세요'}</span>
+            <span>{description || '예: 영어로 번역 할 단어를 입력하세요'}</span>
             <Pencil className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
         </div>

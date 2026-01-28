@@ -1,5 +1,6 @@
 import { Plus } from 'lucide-react';
 
+import { OptionNavGroup, TemplateNavGroup } from '@/components/sidebar/nav-group';
 import { NavUser } from '@/components/sidebar/nav-user';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,26 +9,49 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
+import { SIDEBAR_OPTIONS } from '@/constants/sidebar-options';
 import { useCreateTemplate, useTemplates } from '@/hooks/use-templates';
 import { getUniqueTitle } from '@/lib/template-utils';
 import { useAuthStore } from '@/stores/auth-store';
-
-import { MyTemplateGroup } from './my-template-group';
+import { useTemplateStore } from '@/stores/template-store';
+import type { OptionItem } from '@/types/sidebar';
 
 export function AppSidebar({ ...props }) {
   const { user, logout } = useAuthStore();
+  const { showOutputTypeBlock, setShowOutputTypeBlock, activeItem, setActiveItem } = useTemplateStore();
   const { data: templates = [] } = useTemplates();
   const { mutate: createTemplate } = useCreateTemplate();
 
   const handleCreateClick = () => {
     const newTitle = getUniqueTitle('새로운 프롬프트', templates);
 
-    createTemplate({
-      title: newTitle,
-      content: '프롬프트를 입력해주세요.',
-      variables: [],
-    });
+    createTemplate(
+      {
+        title: newTitle,
+        content: '단어를 영어로 번역해주세요.',
+        variables: [],
+        outputType: null,
+      },
+      {
+        onSuccess: (newTemplate) => {
+          setActiveItem(newTemplate);
+          setShowOutputTypeBlock(false);
+        },
+      }
+    );
   };
+
+  const optionItems: OptionItem[] = [
+    {
+      ...SIDEBAR_OPTIONS.OUTPUT_TYPE,
+      onClick: () => {
+        if (!showOutputTypeBlock) {
+          setShowOutputTypeBlock(true);
+        }
+      },
+      isActive: showOutputTypeBlock || !!activeItem?.outputType,
+    },
+  ];
 
   return (
     <Sidebar {...props}>
@@ -36,6 +60,7 @@ export function AppSidebar({ ...props }) {
           onClick={handleCreateClick}
           variant="outline"
           className="w-full justify-start gap-2"
+          data-tour="new-template"
         >
           <Plus className="h-4 w-4" />
           새 프롬프트 만들기
@@ -43,7 +68,15 @@ export function AppSidebar({ ...props }) {
       </SidebarHeader>
 
       <SidebarContent className="bg-muted/10 px-2 gap-2">
-        <MyTemplateGroup />
+        <TemplateNavGroup
+          title="MY TEMPLATES"
+          items={templates}
+        />
+
+        <OptionNavGroup
+          title="OPTIONS"
+          options={optionItems}
+        />
       </SidebarContent>
 
       {user && (
