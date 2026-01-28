@@ -36,11 +36,13 @@ export function TemplateHeader() {
               }}
               autoFocus
               className="text-2xl h-auto py-1 px-2 w-[300px]"
+              data-tour="template-title"
             />
           ) : (
             <div
               className="flex items-center gap-2 group cursor-pointer"
               onClick={() => setIsEditing(true)}
+              data-tour="template-title"
             >
               <h2 className="text-2xl font-bold">{activeItem.title}</h2>
               <Pencil className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />

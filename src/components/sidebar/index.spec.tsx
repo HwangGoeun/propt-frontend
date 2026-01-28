@@ -87,12 +87,17 @@ describe('AppSidebar', () => {
 
     await user.click(screen.getByText('새 프롬프트 만들기'));
 
-    expect(mockCreateTemplate).toHaveBeenCalledWith({
-      title: '새로운 프롬프트',
-      content: '프롬프트를 입력해주세요.',
-      variables: [],
-      outputType: null,
-    });
+    expect(mockCreateTemplate).toHaveBeenCalledWith(
+      {
+        title: '새로운 프롬프트',
+        content: '단어를 영어로 번역해주세요.',
+        variables: [],
+        outputType: null,
+      },
+      expect.objectContaining({
+        onSuccess: expect.any(Function),
+      })
+    );
   });
 
   it('유저가 있으면 NavUser가 표시되어야 한다', () => {
@@ -130,6 +135,9 @@ describe('AppSidebar', () => {
     expect(mockCreateTemplate).toHaveBeenCalledWith(
       expect.objectContaining({
         title: expect.stringMatching(/새로운 프롬프트/),
+      }),
+      expect.objectContaining({
+        onSuccess: expect.any(Function),
       }),
     );
   });

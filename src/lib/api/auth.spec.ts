@@ -77,7 +77,7 @@ describe('authApi', () => {
   describe('guestLogin', () => {
     it('state 없이 게스트 로그인할 수 있어야 한다', async () => {
       const mockResponse = { ok: true, data: { code: null } };
-      mock.onPost('/auth/guest', { state: null }).reply(200, mockResponse);
+      mock.onPost('/auth/guest', {}).reply(200, mockResponse);
 
       const result = await authApi.guestLogin(null);
 

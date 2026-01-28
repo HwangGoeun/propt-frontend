@@ -58,7 +58,7 @@ describe('NavUser', () => {
 
     await user.click(screen.getByRole('button'));
 
-    await user.click(screen.getByText('Log out'));
+    await user.click(screen.getByText('로그아웃'));
 
     expect(onLogout).toHaveBeenCalled();
   });

@@ -1,10 +1,19 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 
 import { SiteHeader } from './index';
+
+const mockLocalStorage = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+  length: 0,
+  key: vi.fn(),
+};
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -23,6 +32,13 @@ const createWrapper = () => {
 };
 
 describe('SiteHeader', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'localStorage', {
+      writable: true,
+      value: mockLocalStorage,
+    });
+  });
+
   it('헤더가 렌더링되어야 한다', () => {
     render(<SiteHeader />, { wrapper: createWrapper() });
 

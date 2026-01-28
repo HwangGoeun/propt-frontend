@@ -23,14 +23,17 @@ export function TextBlock() {
 
   return (
     <BlockWrapper
-      title="텍스트 입력">
-      <Textarea
-        onChange={handleTextInput}
-        placeholder={'\'{문장}\'을 {언어}로 번역해주세요.'}
-        value={activeItem.content}
-      />
+      title="텍스트 입력"
+    >
+      <div data-tour="prompt-input">
+        <Textarea
+          onChange={handleTextInput}
+          placeholder={'프롬프트를 입력하세요.\n\n{중괄호} 안에 텍스트를 넣으면 변수가 됩니다.\n예시: \'{문장}\'을 {언어}로 번역해주세요.'}
+          value={activeItem.content}
+        />
+      </div>
       <Separator />
-      <div className="space-y-4">
+      <div className="space-y-4" data-tour="variable-block">
         <p className="text-sm font-medium">변수 설정</p>
         {
           (activeItem.variables ?? []).length > 0 ?

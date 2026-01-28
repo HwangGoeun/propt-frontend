@@ -7,8 +7,8 @@ interface GoogleLoginButtonProps {
 export function GoogleLoginButton({ state }: GoogleLoginButtonProps) {
   const handleGoogleLogin = () => {
     const baseUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
-    const url = state 
-      ? `${baseUrl}/auth/google?state=${state}` 
+    const url = state
+      ? `${baseUrl}/auth/google?state=${state}`
       : `${baseUrl}/auth/google`;
     window.location.href = url;
   };

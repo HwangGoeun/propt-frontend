@@ -36,28 +36,30 @@ export function OutputTypeBlock() {
 
   return (
     <>
-      <BlockWrapper title="형식 지정" onClose={handleClose}>
-        <p className="text-sm text-muted-foreground mb-4">
-          결과를 다음 형식으로 작성해주세요
-        </p>
+      <div data-tour="output-type">
+        <BlockWrapper title="형식 지정" onClose={handleClose}>
+          <p className="text-sm text-muted-foreground mb-4">
+            결과를 다음 형식으로 작성해주세요
+          </p>
 
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-medium">출력 형식:</span>
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-medium">출력 형식:</span>
 
-            {PRESET_OPTIONS.map((option) => (
-              <Button
-                key={option.value}
-                variant={currentType === option.value ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => handlePresetClick(option.value)}
-              >
-                {option.label}
-              </Button>
-            ))}
+              {PRESET_OPTIONS.map((option) => (
+                <Button
+                  key={option.value}
+                  variant={currentType === option.value ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => handlePresetClick(option.value)}
+                >
+                  {option.label}
+                </Button>
+              ))}
+            </div>
           </div>
-        </div>
-      </BlockWrapper>
+        </BlockWrapper>
+      </div>
 
       <ConfirmDialog
         open={showDeleteDialog}

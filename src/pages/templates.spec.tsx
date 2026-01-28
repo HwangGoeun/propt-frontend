@@ -117,6 +117,7 @@ describe('TemplatesPage', () => {
         title: 'Template 1',
         content: 'Content 1',
         variables: [],
+        outputType: null,
       });
     });
   });
@@ -202,6 +203,7 @@ describe('TemplatesPage', () => {
         title: 'Template 2',
         content: 'Content 2',
         variables: [],
+        outputType: null,
       });
     });
   });

@@ -64,6 +64,7 @@ function OptionNavItem({ option }: OptionNavItemProps) {
       <SidebarMenuButton
         onClick={option.onClick}
         className="gap-2"
+        data-tour={option.id === 'output-type' ? 'output-type-menu' : undefined}
       >
         {option.icon}
         <span>{option.label}</span>

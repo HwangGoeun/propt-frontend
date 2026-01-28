@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { GoogleLoginButton } from './google-login-button';
 
@@ -19,6 +19,7 @@ describe('GoogleLoginButton', () => {
       writable: true,
       value: originalLocation,
     });
+    vi.clearAllMocks();
   });
 
   it('버튼이 렌더링되어야 한다', () => {

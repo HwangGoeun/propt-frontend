@@ -11,7 +11,7 @@ export function PreviewCard() {
   const outputInstruction = getOutputTypeInstruction(outputType);
 
   return (
-    <Card className="border-none shadow-sm bg-white dark:bg-zinc-900">
+    <Card className="border-none shadow-sm bg-white dark:bg-zinc-900" data-tour="preview-panel">
       <CardContent className="p-6 space-y-4 text-sm">
         <div className="space-y-1">
           <p className="font-semibold text-blue-600">프로프트 {activeItem.title}</p>

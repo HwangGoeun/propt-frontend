@@ -6,6 +6,8 @@ import { useTemplateStore } from '@/stores/template-store';
 
 import { VariableBlock } from './variable-block';
 
+const DEFAULT_PLACEHOLDER = '예: 영어로 번역 할 단어를 입력하세요';
+
 describe('VariableBlock', () => {
   const mockVariable = { name: 'testVar', description: null };
 
@@ -53,7 +55,7 @@ describe('VariableBlock', () => {
 
     render(<VariableBlock variable={mockVariable} />);
 
-    expect(screen.getByText('변수에 대한 설명을 입력해주세요')).toBeInTheDocument();
+    expect(screen.getByText(DEFAULT_PLACEHOLDER)).toBeInTheDocument();
   });
 
   it('설명이 있을 때 표시되어야 한다', () => {
@@ -87,12 +89,12 @@ describe('VariableBlock', () => {
 
     render(<VariableBlock variable={mockVariable} />);
 
-    await user.click(screen.getByText('변수에 대한 설명을 입력해주세요'));
+    await user.click(screen.getByText(DEFAULT_PLACEHOLDER));
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('편집 모드에서 blur 시 저장되어야 한다', async () => {
+  it('편집 모드에서 입력 시 실시간으로 저장되어야 한다', async () => {
     const user = userEvent.setup();
     useTemplateStore.setState({
       activeItem: {
@@ -106,18 +108,17 @@ describe('VariableBlock', () => {
 
     render(<VariableBlock variable={mockVariable} />);
 
-    await user.click(screen.getByText('변수에 대한 설명을 입력해주세요'));
+    await user.click(screen.getByText(DEFAULT_PLACEHOLDER));
 
     const input = screen.getByRole('textbox');
     await user.type(input, 'New description');
-    await user.tab();
 
     const state = useTemplateStore.getState();
     const updatedVar = state.activeItem?.variables.find((v) => v.name === 'testVar');
     expect(updatedVar?.description).toBe('New description');
   });
 
-  it('편집 모드에서 Enter 키로 저장되어야 한다', async () => {
+  it('편집 모드에서 Enter 키로 편집 모드가 종료되어야 한다', async () => {
     const user = userEvent.setup();
     useTemplateStore.setState({
       activeItem: {
@@ -131,7 +132,7 @@ describe('VariableBlock', () => {
 
     render(<VariableBlock variable={mockVariable} />);
 
-    await user.click(screen.getByText('변수에 대한 설명을 입력해주세요'));
+    await user.click(screen.getByText(DEFAULT_PLACEHOLDER));
 
     const input = screen.getByRole('textbox');
     await user.type(input, 'Enter test{Enter}');

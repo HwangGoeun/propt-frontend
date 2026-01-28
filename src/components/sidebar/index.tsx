@@ -18,19 +18,27 @@ import type { OptionItem } from '@/types/sidebar';
 
 export function AppSidebar({ ...props }) {
   const { user, logout } = useAuthStore();
-  const { showOutputTypeBlock, setShowOutputTypeBlock, activeItem } = useTemplateStore();
+  const { showOutputTypeBlock, setShowOutputTypeBlock, activeItem, setActiveItem } = useTemplateStore();
   const { data: templates = [] } = useTemplates();
   const { mutate: createTemplate } = useCreateTemplate();
 
   const handleCreateClick = () => {
     const newTitle = getUniqueTitle('새로운 프롬프트', templates);
 
-    createTemplate({
-      title: newTitle,
-      content: '프롬프트를 입력해주세요.',
-      variables: [],
-      outputType: null,
-    });
+    createTemplate(
+      {
+        title: newTitle,
+        content: '단어를 영어로 번역해주세요.',
+        variables: [],
+        outputType: null,
+      },
+      {
+        onSuccess: (newTemplate) => {
+          setActiveItem(newTemplate);
+          setShowOutputTypeBlock(false);
+        },
+      }
+    );
   };
 
   const optionItems: OptionItem[] = [
@@ -52,6 +60,7 @@ export function AppSidebar({ ...props }) {
           onClick={handleCreateClick}
           variant="outline"
           className="w-full justify-start gap-2"
+          data-tour="new-template"
         >
           <Plus className="h-4 w-4" />
           새 프롬프트 만들기
