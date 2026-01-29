@@ -1,15 +1,29 @@
 import { Navigate, useSearchParams } from 'react-router-dom';
 
 import { LoginForm } from '@/components/auth/login-form';
+import { McpConnectCard } from '@/components/auth/mcp-connect-card';
 import { useAuthStore } from '@/stores/auth-store';
 
 export default function LoginPage() {
-  const { authStatus } = useAuthStore();
+  const { authStatus, user } = useAuthStore();
   const [searchParams] = useSearchParams();
   const state = searchParams.get('state');
 
   if (authStatus === 'authenticated' && state !== 'mcp') {
     return <Navigate to="/templates" replace />;
+  }
+
+  if (authStatus === 'authenticated' && state === 'mcp' && user) {
+    return (
+      <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+        <div className="flex w-full max-w-sm flex-col gap-6">
+          <p className="flex items-center gap-2 self-center font-medium text-foreground">
+            Propt: Build Pipelines, Not Chat Rooms.
+          </p>
+          <McpConnectCard user={user} />
+        </div>
+      </div>
+    );
   }
 
   return (

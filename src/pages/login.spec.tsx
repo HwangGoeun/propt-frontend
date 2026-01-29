@@ -81,6 +81,22 @@ describe('LoginPage', () => {
       </MemoryRouter>,
     );
 
+    expect(screen.getByText('MCP 연결')).toBeInTheDocument();
+    expect(screen.getByText('이 계정으로 MCP 클라이언트에 연결하시겠습니까?')).toBeInTheDocument();
+  });
+
+  it('state=mcp일 때 unauthenticated이면 LoginForm을 표시해야 한다', () => {
+    useAuthStore.setState({
+      user: null,
+      authStatus: 'unauthenticated',
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/login?state=mcp']}>
+        <LoginPage />
+      </MemoryRouter>,
+    );
+
     expect(screen.getByText('다시 오신 것을 환영합니다')).toBeInTheDocument();
   });
 });
