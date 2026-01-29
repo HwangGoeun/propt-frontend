@@ -26,7 +26,7 @@ describe('McpCodePage', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('❌ 오류')).toBeInTheDocument();
+    expect(screen.getByText('오류')).toBeInTheDocument();
     expect(screen.getByText('코드가 없습니다. 다시 로그인해주세요.')).toBeInTheDocument();
   });
 
@@ -49,7 +49,7 @@ describe('McpCodePage', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('📋 코드 복사')).toBeInTheDocument();
+    expect(screen.getByText('코드 복사')).toBeInTheDocument();
   });
 
   it('복사 버튼이 클릭 가능해야 한다', () => {
@@ -72,9 +72,9 @@ describe('McpCodePage', () => {
       </MemoryRouter>,
     );
 
-    await user.click(screen.getByText('📋 코드 복사'));
+    await user.click(screen.getByText('코드 복사'));
 
-    expect(screen.getByText('✅ 복사됨')).toBeInTheDocument();
+    expect(screen.getByText('복사됨!')).toBeInTheDocument();
   });
 
   it('만료 안내 텍스트가 표시되어야 한다', () => {
@@ -95,5 +95,15 @@ describe('McpCodePage', () => {
     );
 
     expect(screen.getByText('Propt')).toBeInTheDocument();
+  });
+
+  it('코드 입력 완료 버튼이 표시되어야 한다', () => {
+    render(
+      <MemoryRouter initialEntries={['/mcp/code?code=ABC123']}>
+        <McpCodePage />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText('코드 입력 완료')).toBeInTheDocument();
   });
 });

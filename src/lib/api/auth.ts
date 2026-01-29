@@ -22,4 +22,22 @@ export const authApi = {
 
     return response.data;
   },
+
+  generateMcpCode: async (): Promise<ApiResponse<{ code: string }>> => {
+    const response = await apiClient.post('/auth/code/generate');
+
+    return response.data;
+  },
+
+  checkMcpCodeStatus: async (code: string): Promise<ApiResponse<{ used: boolean }>> => {
+    const response = await apiClient.get(`/mcp/code/status?code=${code}`);
+
+    return response.data;
+  },
+
+  updateOnboarding: async (completed: boolean): Promise<ApiResponse<void>> => {
+    const response = await apiClient.patch('/auth/onboarding', { completed });
+
+    return response.data;
+  },
 };

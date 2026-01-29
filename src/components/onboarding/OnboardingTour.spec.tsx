@@ -2,8 +2,15 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
+import { useAuthStore } from '@/stores/auth-store';
 import { useOnboardingStore } from '@/stores/onboarding-store';
 import { useTemplateStore } from '@/stores/template-store';
+
+vi.mock('@/lib/api/auth', () => ({
+  authApi: {
+    updateOnboarding: vi.fn().mockResolvedValue({ ok: true }),
+  },
+}));
 
 vi.mock('react-joyride', () => ({
   default: vi.fn(({ callback, tooltipComponent: TooltipComponent, steps, stepIndex }) => {
@@ -44,10 +51,18 @@ describe('OnboardingTour', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
+    useAuthStore.setState({
+      user: {
+        id: 'user-1',
+        email: 'test@example.com',
+        name: 'Test User',
+        hasCompletedOnboarding: false,
+      },
+      authStatus: 'authenticated',
+    });
+
     useOnboardingStore.setState({
-      hasCompletedTour: false,
       isTourRunning: false,
-      hasDismissedTour: false,
       currentStep: 0,
       stepCompleted: false,
       isMcpGuideModalOpen: false,
@@ -164,7 +179,7 @@ describe('OnboardingTour', () => {
         fireEvent.click(screen.getByRole('button', { name: '건너뛰기' }));
       });
 
-      expect(useOnboardingStore.getState().hasCompletedTour).toBe(true);
+      expect(useOnboardingStore.getState().isTourRunning).toBe(false);
     });
 
     it('다음 버튼 클릭 시 goToNextStep이 호출되어야 한다', async () => {
@@ -386,7 +401,7 @@ describe('OnboardingTour', () => {
         fireEvent.click(screen.getByRole('button', { name: '시작하기' }));
       });
 
-      expect(useOnboardingStore.getState().hasCompletedTour).toBe(true);
+      expect(useOnboardingStore.getState().isTourRunning).toBe(false);
     });
   });
 

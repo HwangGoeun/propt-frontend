@@ -40,7 +40,7 @@ describe('useAuthStore', () => {
 
   describe('checkAuthStatus', () => {
     it('인증된 사용자 정보를 설정해야 한다', async () => {
-      const mockUser = { id: 'user-1', email: 'test@example.com', name: 'Test User' };
+      const mockUser = { id: 'user-1', email: 'test@example.com', name: 'Test User', hasCompletedOnboarding: false };
       vi.mocked(authApi.checkAuthStatus).mockResolvedValue({
         ok: true,
         data: { isAuthenticated: true, user: mockUser },
@@ -93,7 +93,7 @@ describe('useAuthStore', () => {
 
       resolvePromise!({
         ok: true,
-        data: { isAuthenticated: true, user: { id: '1', email: 'test@test.com', name: 'Test' } },
+        data: { isAuthenticated: true, user: { id: '1', email: 'test@test.com', name: 'Test', hasCompletedOnboarding: false } },
       });
 
       await checkPromise;
@@ -113,7 +113,7 @@ describe('useAuthStore', () => {
   describe('logout', () => {
     it('로그아웃 후 상태를 초기화해야 한다', async () => {
       useAuthStore.setState({
-        user: { id: 'user-1', email: 'test@example.com', name: 'Test' },
+        user: { id: 'user-1', email: 'test@example.com', name: 'Test', hasCompletedOnboarding: false },
         authStatus: 'authenticated',
       });
 
@@ -136,7 +136,7 @@ describe('useAuthStore', () => {
 
     it('에러 발생 시에도 상태를 초기화해야 한다', async () => {
       useAuthStore.setState({
-        user: { id: 'user-1', email: 'test@example.com', name: 'Test' },
+        user: { id: 'user-1', email: 'test@example.com', name: 'Test', hasCompletedOnboarding: false },
         authStatus: 'authenticated',
       });
 

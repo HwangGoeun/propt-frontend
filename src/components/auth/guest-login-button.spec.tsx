@@ -17,12 +17,6 @@ vi.mock('@/stores/auth-store', () => ({
   })),
 }));
 
-vi.mock('@/stores/onboarding-store', () => ({
-  useOnboardingStore: vi.fn(() => ({
-    resetTour: vi.fn(),
-  })),
-}));
-
 import { authApi } from '@/lib/api/auth';
 
 const mockNavigate = vi.fn();

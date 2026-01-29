@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { authApi } from '@/lib/api/auth';
 import { useAuthStore } from '@/stores/auth-store';
-import { useOnboardingStore } from '@/stores/onboarding-store';
 
 interface GuestLoginButtonProps {
   state: string | null;
@@ -15,7 +14,6 @@ export function GuestLoginButton({ state }: GuestLoginButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { checkAuthStatus } = useAuthStore();
-  const { resetTour } = useOnboardingStore();
 
   const handleGuestLogin = async () => {
     setIsLoading(true);
@@ -27,7 +25,6 @@ export function GuestLoginButton({ state }: GuestLoginButtonProps) {
         return;
       }
 
-      resetTour();
       await checkAuthStatus();
       navigate('/templates');
     } catch (error) {
