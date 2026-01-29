@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 
 import { authApi } from '@/lib/api/auth';
-import type { AuthStatus,User } from '@/types/auth';
+import type { AuthStatus, User } from '@/types/auth';
 
 interface AuthState {
   user: User | null;
   authStatus: AuthStatus;
   checkAuthStatus: () => Promise<void>;
   logout: () => Promise<void>;
+  updateOnboardingStatus: (completed: boolean) => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   authStatus: 'idle',
 
@@ -36,6 +37,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       console.error('Logout failed:', error);
       set({ user: null, authStatus: 'unauthenticated' });
+    }
+  },
+
+  updateOnboardingStatus: async (completed: boolean) => {
+    const user = get().user;
+    if (!user) return;
+
+    set({ user: { ...user, hasCompletedOnboarding: completed } });
+
+    try {
+      await authApi.updateOnboarding(completed);
+    } catch (error) {
+      set({ user: { ...user, hasCompletedOnboarding: !completed } });
+      console.error('Onboarding status update failed:', error);
     }
   },
 }));

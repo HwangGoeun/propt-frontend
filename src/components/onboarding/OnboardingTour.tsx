@@ -10,6 +10,7 @@ import Joyride, {
 import { CustomTooltip } from '@/components/onboarding/CustomTooltip';
 import { OnboardingCompletionDialog } from '@/components/onboarding/OnboardingCompletionDialog';
 import { createDesktopSteps } from '@/components/onboarding/steps/desktop-steps';
+import { useAuthStore } from '@/stores/auth-store';
 import { useOnboardingStore } from '@/stores/onboarding-store';
 import { useTemplateStore } from '@/stores/template-store';
 
@@ -20,13 +21,20 @@ export function OnboardingTour() {
     stepCompleted,
     setStepIndex,
     goToNextStep,
-    completeTour,
-    dismissTour,
+    completeTour: completeTourLocal,
     markStepCompleted,
     isMcpGuideModalOpen,
   } = useOnboardingStore();
+  const { updateOnboardingStatus } = useAuthStore();
 
   const { activeItem, showOutputTypeBlock } = useTemplateStore();
+
+  // 투어 완료 시 서버에도 저장
+  const completeTour = useCallback(async () => {
+    completeTourLocal();
+    await updateOnboardingStatus(true);
+  }, [completeTourLocal, updateOnboardingStatus]);
+
   const [isDarkMode, setIsDarkMode] = useState(false);
   const prevTitleRef = useRef<string | null>(null);
   const prevOutputType = useRef<string | null>(null);
@@ -213,7 +221,7 @@ export function OnboardingTour() {
       }
 
       if (action === ACTIONS.CLOSE) {
-        dismissTour();
+        completeTour();
         return;
       }
 
@@ -227,7 +235,7 @@ export function OnboardingTour() {
         }
       }
     },
-    [completeTour, dismissTour, goToNextStep, setStepIndex, completionType, stepCompleted]
+    [completeTour, goToNextStep, setStepIndex, completionType, stepCompleted]
   );
 
   const tooltipComponent = useMemo(

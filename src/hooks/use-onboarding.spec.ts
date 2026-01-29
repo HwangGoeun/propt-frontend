@@ -1,12 +1,19 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useAuthStore } from '@/stores/auth-store';
 import { useOnboardingStore } from '@/stores/onboarding-store';
 
 vi.mock('@/hooks/use-templates', () => ({
   useTemplates: vi.fn(() => ({
     isLoading: false,
   })),
+}));
+
+vi.mock('@/lib/api/auth', () => ({
+  authApi: {
+    updateOnboarding: vi.fn().mockResolvedValue({ ok: true }),
+  },
 }));
 
 import { useTemplates } from '@/hooks/use-templates';
@@ -26,10 +33,18 @@ describe('useOnboarding', () => {
       refetch: vi.fn(),
     } as unknown as ReturnType<typeof useTemplates>);
 
+    useAuthStore.setState({
+      user: {
+        id: 'user-1',
+        email: 'test@example.com',
+        name: 'Test User',
+        hasCompletedOnboarding: false,
+      },
+      authStatus: 'authenticated',
+    });
+
     useOnboardingStore.setState({
-      hasCompletedTour: false,
       isTourRunning: false,
-      hasDismissedTour: false,
       currentStep: 0,
       stepCompleted: false,
       isMcpGuideModalOpen: false,
@@ -40,9 +55,15 @@ describe('useOnboarding', () => {
 
   describe('온보딩 자동 시작', () => {
     it('온보딩 미완료 상태에서 가이드가 시작되어야 한다', async () => {
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: false,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: false,
-        hasDismissedTour: false,
         isTourRunning: false,
       });
 
@@ -53,24 +74,16 @@ describe('useOnboarding', () => {
       });
     });
 
-    it('온보딩 완료 상태 (hasCompletedTour: true)에서 가이드가 시작되지 않아야 한다', async () => {
-      useOnboardingStore.setState({
-        hasCompletedTour: true,
-        hasDismissedTour: false,
-        isTourRunning: false,
+    it('온보딩 완료 상태 (hasCompletedOnboarding: true)에서 가이드가 시작되지 않아야 한다', async () => {
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: true,
+        },
       });
-
-      renderHook(() => useOnboarding());
-
-      // 약간의 지연 후에도 투어가 시작되지 않아야 함
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      expect(useOnboardingStore.getState().isTourRunning).toBe(false);
-    });
-
-    it('온보딩 건너뛰기 상태 (hasDismissedTour: true)에서 가이드가 시작되지 않아야 한다', async () => {
       useOnboardingStore.setState({
-        hasCompletedTour: false,
-        hasDismissedTour: true,
         isTourRunning: false,
       });
 
@@ -82,9 +95,15 @@ describe('useOnboarding', () => {
 
     it('이미 투어가 실행 중이면 다시 시작하지 않아야 한다', async () => {
       const startTourSpy = vi.spyOn(useOnboardingStore.getState(), 'startTour');
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: false,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: false,
-        hasDismissedTour: false,
         isTourRunning: true,
       });
 
@@ -105,9 +124,15 @@ describe('useOnboarding', () => {
         refetch: vi.fn(),
       } as unknown as ReturnType<typeof useTemplates>);
 
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: false,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: false,
-        hasDismissedTour: false,
         isTourRunning: false,
       });
 
@@ -122,10 +147,15 @@ describe('useOnboarding', () => {
 
   describe('재로그인 시 온보딩 상태 유지', () => {
     it('온보딩을 완료한 사용자가 재로그인하면 가이드가 나오지 않아야 한다', async () => {
-      // 이전 세션에서 온보딩을 완료한 상태를 시뮬레이션
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: true,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: true,
-        hasDismissedTour: false,
         isTourRunning: false,
       });
 
@@ -137,10 +167,15 @@ describe('useOnboarding', () => {
     });
 
     it('온보딩을 건너뛴 사용자가 재로그인하면 가이드가 나오지 않아야 한다', async () => {
-      // 이전 세션에서 온보딩을 건너뛴 상태를 시뮬레이션
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: true,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: false,
-        hasDismissedTour: true,
         isTourRunning: false,
       });
 
@@ -152,10 +187,15 @@ describe('useOnboarding', () => {
     });
 
     it('온보딩을 완료하지 않은 신규 사용자가 로그인하면 가이드가 나와야 한다', async () => {
-      // 신규 사용자 상태
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: false,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: false,
-        hasDismissedTour: false,
         isTourRunning: false,
       });
 
@@ -178,21 +218,26 @@ describe('useOnboarding', () => {
       expect(result.current).toHaveProperty('stepCompleted');
       expect(result.current).toHaveProperty('stopTour');
       expect(result.current).toHaveProperty('completeTour');
-      expect(result.current).toHaveProperty('dismissTour');
       expect(result.current).toHaveProperty('restartTour');
     });
 
-    it('restartTour 호출 시 투어가 재시작되어야 한다', () => {
+    it('restartTour 호출 시 투어가 재시작되어야 한다', async () => {
+      useAuthStore.setState({
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          name: 'Test User',
+          hasCompletedOnboarding: true,
+        },
+      });
       useOnboardingStore.setState({
-        hasCompletedTour: true,
         isTourRunning: false,
       });
 
       const { result } = renderHook(() => useOnboarding());
 
-      result.current.restartTour();
+      await result.current.restartTour();
 
-      expect(useOnboardingStore.getState().hasCompletedTour).toBe(false);
       expect(useOnboardingStore.getState().isTourRunning).toBe(true);
     });
   });
