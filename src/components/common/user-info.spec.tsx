@@ -8,6 +8,7 @@ describe('UserInfo', () => {
     id: 'user-1',
     email: 'test@example.com',
     name: 'Test User',
+    hasCompletedOnboarding: false,
   };
 
   it('사용자 이름이 표시되어야 한다', () => {

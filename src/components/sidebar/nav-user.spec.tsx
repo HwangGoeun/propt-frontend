@@ -28,6 +28,7 @@ describe('NavUser', () => {
     id: 'user-1',
     email: 'test@example.com',
     name: 'Test User',
+    hasCompletedOnboarding: false,
   };
 
   it('사용자 정보가 표시되어야 한다', () => {

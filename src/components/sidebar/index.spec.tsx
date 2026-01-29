@@ -48,6 +48,7 @@ describe('AppSidebar', () => {
     id: 'user-1',
     email: 'test@example.com',
     name: 'Test User',
+    hasCompletedOnboarding: false,
   };
 
   beforeEach(() => {

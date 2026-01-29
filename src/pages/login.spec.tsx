@@ -56,7 +56,7 @@ describe('LoginPage', () => {
 
   it('authenticated 상태에서 /templates로 리다이렉트해야 한다', () => {
     useAuthStore.setState({
-      user: { id: '1', email: 'test@test.com', name: 'Test' },
+      user: { id: '1', email: 'test@test.com', name: 'Test', hasCompletedOnboarding: false },
       authStatus: 'authenticated',
     });
 
@@ -71,7 +71,7 @@ describe('LoginPage', () => {
 
   it('state=mcp일 때 authenticated여도 리다이렉트하지 않아야 한다', () => {
     useAuthStore.setState({
-      user: { id: '1', email: 'test@test.com', name: 'Test' },
+      user: { id: '1', email: 'test@test.com', name: 'Test', hasCompletedOnboarding: false },
       authStatus: 'authenticated',
     });
 

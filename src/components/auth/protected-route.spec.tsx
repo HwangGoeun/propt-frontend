@@ -46,7 +46,7 @@ describe('ProtectedRoute', () => {
   it('authenticated 상태일 때 children을 렌더링해야 한다', () => {
     useAuthStore.setState({
       authStatus: 'authenticated',
-      user: { id: '1', email: 'test@test.com', name: 'Test' },
+      user: { id: '1', email: 'test@test.com', name: 'Test', hasCompletedOnboarding: false },
     });
 
     render(
