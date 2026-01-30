@@ -3,15 +3,18 @@ import { useEffect, useState } from 'react';
 import { BlockWrapper } from '@/components/common/block-wrapper';
 import { ConfirmDialog } from '@/components/common/confirm-dialog';
 import { Button } from '@/components/ui/button';
-import { PRESET_OPTIONS } from '@/lib/output-type-utils';
+import { Input } from '@/components/ui/input';
+import { PRESET_OPTIONS, PRESET_VALUES } from '@/lib/output-type-utils';
 import { useTemplateStore } from '@/stores/template-store';
 
 export function OutputTypeBlock() {
   const { activeItem, updateActiveItem, setShowOutputTypeBlock } =
     useTemplateStore();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [customInput, setCustomInput] = useState('');
 
   const currentType = activeItem?.outputType ?? null;
+  const isCustomType = currentType && !PRESET_VALUES.includes(currentType as typeof PRESET_VALUES[number]);
 
   useEffect(() => {
     if (activeItem && !activeItem.outputType) {
@@ -19,10 +22,30 @@ export function OutputTypeBlock() {
     }
   }, [activeItem, updateActiveItem]);
 
+  const [lastSyncedType, setLastSyncedType] = useState(activeItem?.outputType ?? null);
+
+  if (currentType !== lastSyncedType) {
+    setLastSyncedType(currentType);
+
+    if (isCustomType && currentType && currentType !== customInput.trim()) {
+      setCustomInput(currentType);
+    }
+  }
+
   if (!activeItem) return null;
 
   const handlePresetClick = (value: string) => {
+    setCustomInput('');
     updateActiveItem({ outputType: value });
+  };
+
+  const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCustomInput(value);
+
+    if (value.trim()) {
+      updateActiveItem({ outputType: value.trim() });
+    }
   };
 
   const handleClose = () => {
@@ -56,6 +79,17 @@ export function OutputTypeBlock() {
                   {option.label}
                 </Button>
               ))}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">직접 입력:</span>
+              <Input
+                type="text"
+                placeholder="예: pdf, docx, pptx"
+                value={customInput}
+                onChange={handleCustomInputChange}
+                className="max-w-[200px]"
+              />
             </div>
           </div>
         </BlockWrapper>
