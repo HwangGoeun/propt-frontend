@@ -74,6 +74,23 @@ describe('authApi', () => {
     });
   });
 
+  describe('withdraw', () => {
+    it('회원 탈퇴 요청을 보내야 한다', async () => {
+      const mockResponse = { ok: true, data: null };
+      mock.onDelete('/auth/withdraw').reply(200, mockResponse);
+
+      const result = await authApi.withdraw();
+
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('에러 발생 시 예외를 던져야 한다', async () => {
+      mock.onDelete('/auth/withdraw').reply(500, { message: '회원 탈퇴 실패' });
+
+      await expect(authApi.withdraw()).rejects.toThrow('회원 탈퇴 실패');
+    });
+  });
+
   describe('guestLogin', () => {
     it('state 없이 게스트 로그인할 수 있어야 한다', async () => {
       const mockResponse = { ok: true, data: { code: null } };
