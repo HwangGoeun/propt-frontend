@@ -6,6 +6,7 @@ vi.mock('@/lib/api/auth', () => ({
   authApi: {
     checkAuthStatus: vi.fn(),
     logout: vi.fn(),
+    withdraw: vi.fn(),
   },
 }));
 
@@ -143,6 +144,46 @@ describe('useAuthStore', () => {
       vi.mocked(authApi.logout).mockRejectedValue(new Error('Logout failed'));
 
       await useAuthStore.getState().logout();
+
+      const state = useAuthStore.getState();
+      expect(state.user).toBeNull();
+      expect(state.authStatus).toBe('unauthenticated');
+    });
+  });
+
+  describe('withdraw', () => {
+    it('회원 탈퇴 후 상태를 초기화해야 한다', async () => {
+      useAuthStore.setState({
+        user: { id: 'user-1', email: 'test@example.com', name: 'Test', hasCompletedOnboarding: false },
+        authStatus: 'authenticated',
+      });
+
+      vi.mocked(authApi.withdraw).mockResolvedValue({ ok: true, data: undefined });
+
+      await useAuthStore.getState().withdraw();
+
+      const state = useAuthStore.getState();
+      expect(state.user).toBeNull();
+      expect(state.authStatus).toBe('unauthenticated');
+    });
+
+    it('회원 탈퇴 API가 호출되어야 한다', async () => {
+      vi.mocked(authApi.withdraw).mockResolvedValue({ ok: true, data: undefined });
+
+      await useAuthStore.getState().withdraw();
+
+      expect(authApi.withdraw).toHaveBeenCalledTimes(1);
+    });
+
+    it('에러 발생 시에도 상태를 초기화해야 한다', async () => {
+      useAuthStore.setState({
+        user: { id: 'user-1', email: 'test@example.com', name: 'Test', hasCompletedOnboarding: false },
+        authStatus: 'authenticated',
+      });
+
+      vi.mocked(authApi.withdraw).mockRejectedValue(new Error('Withdraw failed'));
+
+      await useAuthStore.getState().withdraw();
 
       const state = useAuthStore.getState();
       expect(state.user).toBeNull();

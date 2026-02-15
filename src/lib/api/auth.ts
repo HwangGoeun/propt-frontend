@@ -16,6 +16,12 @@ export const authApi = {
     return response.data;
   },
 
+  withdraw: async (): Promise<ApiResponse<void>> => {
+    const response = await apiClient.delete('/auth/withdraw');
+
+    return response.data;
+  },
+
   guestLogin: async (state: string | null): Promise<ApiResponse<{ code: string | null }>> => {
     const body = state ? { state } : {};
     const response = await apiClient.post('/auth/guest', body);

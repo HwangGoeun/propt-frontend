@@ -17,7 +17,7 @@ import { useTemplateStore } from '@/stores/template-store';
 import type { OptionItem } from '@/types/sidebar';
 
 export function AppSidebar({ ...props }) {
-  const { user, logout } = useAuthStore();
+  const { user, logout, withdraw } = useAuthStore();
   const { showOutputTypeBlock, setShowOutputTypeBlock, activeItem, setActiveItem } = useTemplateStore();
   const { data: templates = [] } = useTemplates();
   const { mutate: createTemplate } = useCreateTemplate();
@@ -81,7 +81,7 @@ export function AppSidebar({ ...props }) {
 
       {user && (
         <SidebarFooter className="bg-muted/10 p-2 mb-3.5 border-t border-sidebar-border">
-          <NavUser user={user} onLogout={logout} />
+          <NavUser user={user} onLogout={logout} onWithdraw={withdraw} />
         </SidebarFooter>
       )}
     </Sidebar>

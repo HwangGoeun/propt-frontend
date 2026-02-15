@@ -8,6 +8,7 @@ interface AuthState {
   authStatus: AuthStatus;
   checkAuthStatus: () => Promise<void>;
   logout: () => Promise<void>;
+  withdraw: () => Promise<void>;
   updateOnboardingStatus: (completed: boolean) => Promise<void>;
 }
 
@@ -36,6 +37,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ user: null, authStatus: 'unauthenticated' });
     } catch (error) {
       console.error('Logout failed:', error);
+      set({ user: null, authStatus: 'unauthenticated' });
+    }
+  },
+
+  withdraw: async () => {
+    try {
+      await authApi.withdraw();
+      set({ user: null, authStatus: 'unauthenticated' });
+    } catch (error) {
+      console.error('Withdraw failed:', error);
       set({ user: null, authStatus: 'unauthenticated' });
     }
   },
