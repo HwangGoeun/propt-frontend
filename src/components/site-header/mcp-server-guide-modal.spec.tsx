@@ -42,7 +42,7 @@ describe('MCPServerGuideModal', () => {
     await user.click(screen.getByText('MCP 설정 가이드'));
 
     await waitFor(() => {
-      expect(screen.getByText('설치 방법')).toBeInTheDocument();
+      expect(screen.getByText('Claude Web (claude.ai)')).toBeInTheDocument();
     });
   });
 
@@ -53,7 +53,7 @@ describe('MCPServerGuideModal', () => {
     await user.click(screen.getByText('MCP 설정 가이드'));
 
     await waitFor(() => {
-      expect(screen.getByText(/MCP 클라이언트 설정 파일에 추가/)).toBeInTheDocument();
+      expect(screen.getByText(/사용 중인 클라이언트에 맞는 설정 방법을 따라주세요/)).toBeInTheDocument();
     });
   });
 
@@ -64,7 +64,7 @@ describe('MCPServerGuideModal', () => {
     await user.click(screen.getByText('MCP 설정 가이드'));
 
     await waitFor(() => {
-      expect(screen.getByText('Claude Code / Claude Desktop 설정')).toBeInTheDocument();
+      expect(screen.getByText('SSE 설정 (JSON)')).toBeInTheDocument();
     });
   });
 
@@ -75,10 +75,10 @@ describe('MCPServerGuideModal', () => {
     await user.click(screen.getByText('MCP 설정 가이드'));
 
     await waitFor(() => {
-      expect(screen.getByText('Claude Code / Claude Desktop 설정')).toBeInTheDocument();
+      expect(screen.getByText('SSE 설정 (JSON)')).toBeInTheDocument();
     });
 
-    const copyButton = screen.getByRole('button', { name: /설정 복사/i });
-    expect(copyButton).toBeInTheDocument();
+    const copyButtons = screen.getAllByRole('button', { name: /설정 복사/i });
+    expect(copyButtons.length).toBeGreaterThanOrEqual(1);
   });
 });
