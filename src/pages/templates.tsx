@@ -50,14 +50,14 @@ export default function TemplatesPage() {
       <div className="flex h-screen w-full flex-col bg-background text-foreground font-sans">
         <SiteHeader />
 
-        <div className="flex flex-1 overflow-hidden pt-14">
+        <div className="flex flex-1 overflow-hidden pt-14 min-h-0">
           {activeItem ? (
             <TemplateWorkspace key={activeItem.id} />
           ) : (
-            <div className="flex flex-1 items-center justify-center text-muted-foreground">
+            <div className="flex flex-1 items-center justify-center text-muted-foreground px-4">
               <div className="text-center">
-                <p className="text-lg">템플릿이 없습니다</p>
-                <p className="text-sm mt-2">새로운 템플릿을 생성해보세요!</p>
+                <p className="text-base md:text-lg">템플릿이 없습니다</p>
+                <p className="text-xs md:text-sm mt-2">새로운 템플릿을 생성해보세요!</p>
               </div>
             </div>
           )}

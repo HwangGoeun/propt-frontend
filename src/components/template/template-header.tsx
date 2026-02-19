@@ -23,9 +23,9 @@ export function TemplateHeader() {
   };
 
   return (
-    <div className="p-6 pb-2">
-      <div className="flex items-center justify-between mb-2">
-        <div>
+    <div className="p-4 md:p-6 pb-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+        <div className="min-w-0">
           {isEditing ? (
             <Input
               value={activeItem.title}
@@ -35,7 +35,7 @@ export function TemplateHeader() {
                 if (e.key === 'Enter') setIsEditing(false);
               }}
               autoFocus
-              className="text-2xl h-auto py-1 px-2 w-[300px]"
+              className="text-xl md:text-2xl h-auto py-1 px-2 w-full max-w-[300px]"
               data-tour="template-title"
             />
           ) : (
@@ -44,14 +44,14 @@ export function TemplateHeader() {
               onClick={() => setIsEditing(true)}
               data-tour="template-title"
             >
-              <h2 className="text-2xl font-bold">{activeItem.title}</h2>
-              <Pencil className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+              <h2 className="text-xl md:text-2xl font-bold truncate">{activeItem.title}</h2>
+              <Pencil className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
             </div>
           )}
-          <p className="text-sm text-muted-foreground mt-1">{`"프로프트 ${activeItem.title}" 명령어를 입력하여 실행해보세요!`}</p>
+          <p className="text-xs md:text-sm text-muted-foreground mt-1 truncate">{`"프로프트 ${activeItem.title}" 명령어를 입력하여 실행해보세요!`}</p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {saveStatus === 'editing' && (
             <div className="flex items-center text-muted-foreground text-sm gap-1.5">
               <Pencil className="w-3 h-3" />
