@@ -1,9 +1,10 @@
 import './index.css';
 
 import { useEffect } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { ProtectedRoute } from './components/auth/protected-route';
+import LandingPage from './pages/landing';
 import LoginPage from './pages/login';
 import McpCodePage from './pages/mcp-code';
 import TemplatesPage from './pages/templates';
@@ -29,7 +30,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
   );
