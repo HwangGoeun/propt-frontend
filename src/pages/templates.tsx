@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
+import { OnboardingTour } from '@/components/onboarding/onboarding-tour';
 import { AppSidebar } from '@/components/sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { TemplateWorkspace } from '@/components/template/template-workspace';

@@ -7,8 +7,8 @@ import Joyride, {
   type TooltipRenderProps,
 } from 'react-joyride';
 
-import { CustomTooltip } from '@/components/onboarding/CustomTooltip';
-import { OnboardingCompletionDialog } from '@/components/onboarding/OnboardingCompletionDialog';
+import { CustomTooltip } from '@/components/onboarding/custom-tooltip';
+import { OnboardingCompletionDialog } from '@/components/onboarding/onboarding-completion-dialog';
 import { createDesktopSteps } from '@/components/onboarding/steps/desktop-steps';
 import { useAuthStore } from '@/stores/auth-store';
 import { useOnboardingStore } from '@/stores/onboarding-store';

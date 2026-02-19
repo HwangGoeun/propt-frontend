@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '@/lib/api/auth';
 import { useAuthStore } from '@/stores/auth-store';
 
-export function useGuestLogin() {
+export function useGuestLogin(state: string | null = null) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -14,7 +14,13 @@ export function useGuestLogin() {
     setIsLoading(true);
     setError(null);
     try {
-      await authApi.guestLogin(null);
+      const response = await authApi.guestLogin(state);
+
+      if (state === 'mcp' && response.ok && response.data?.code) {
+        navigate(`/mcp/code?code=${response.data.code}`);
+        return;
+      }
+
       await checkAuthStatus();
       navigate('/templates');
     } catch (err) {
