@@ -1,9 +1,3 @@
-export interface NavItemData {
-  id?: string;
-  icon: string;
-  label: string;
-}
-
 export type SaveStatus = 'idle' | 'editing' | 'saving' | 'saved' | 'error';
 
 export interface TemplateVariable {

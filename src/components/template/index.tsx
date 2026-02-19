@@ -10,7 +10,7 @@ export function TemplatePanel() {
     <main className="flex-1 flex flex-col bg-background relative overflow-y-auto">
       <TemplateHeader />
 
-      <div className="px-10 pb-20 space-y-8 max-w-4xl mx-auto w-full">
+      <div className="px-4 md:px-10 pb-20 space-y-8 max-w-4xl mx-auto w-full">
         <TextBlock />
         {(showOutputTypeBlock || !!activeItem?.outputType) && <OutputTypeBlock />}
       </div>

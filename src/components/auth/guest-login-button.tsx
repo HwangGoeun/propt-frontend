@@ -1,42 +1,18 @@
 import { UserIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
-import { authApi } from '@/lib/api/auth';
-import { useAuthStore } from '@/stores/auth-store';
+import { useGuestLogin } from '@/hooks/use-guest-login';
 
 interface GuestLoginButtonProps {
   state: string | null;
 }
 
 export function GuestLoginButton({ state }: GuestLoginButtonProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { checkAuthStatus } = useAuthStore();
-
-  const handleGuestLogin = async () => {
-    setIsLoading(true);
-    try {
-      const response = await authApi.guestLogin(state);
-
-      if (state === 'mcp' && response.ok && response.data?.code) {
-        navigate(`/mcp/code?code=${response.data.code}`);
-        return;
-      }
-
-      await checkAuthStatus();
-      navigate('/templates');
-    } catch (error) {
-      console.error('Guest login error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { guestLogin, isLoading } = useGuestLogin(state);
 
   return (
     <Button
-      onClick={handleGuestLogin}
+      onClick={guestLogin}
       variant="secondary"
       type="button"
       className="w-full gap-3 font-medium cursor-pointer"

@@ -1,6 +1,6 @@
 import { HelpCircle } from 'lucide-react';
 
-import { MCPServerGuideModal } from '@/components/site-header/mcp-server-guide-modal.tsx';
+import { MCPServerGuideModal } from '@/components/site-header/mcp-server-guide-modal';
 import { ModeToggle } from '@/components/site-header/mode-toggle';
 import { SiteHeaderBreadcrumb } from '@/components/site-header/site-header-breadcrumb';
 import { Button } from '@/components/ui/button';

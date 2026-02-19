@@ -2,6 +2,7 @@ import { Plus } from 'lucide-react';
 
 import { OptionNavGroup, TemplateNavGroup } from '@/components/sidebar/nav-group';
 import { NavUser } from '@/components/sidebar/nav-user';
+import { SIDEBAR_OPTIONS } from '@/components/sidebar/sidebar-options';
 import { Button } from '@/components/ui/button';
 import {
   Sidebar,
@@ -9,7 +10,6 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
-import { SIDEBAR_OPTIONS } from '@/constants/sidebar-options';
 import { useCreateTemplate, useTemplates } from '@/hooks/use-templates';
 import { getUniqueTitle } from '@/lib/template-utils';
 import { useAuthStore } from '@/stores/auth-store';

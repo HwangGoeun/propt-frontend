@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
+import { OnboardingTour } from '@/components/onboarding/onboarding-tour';
 import { useAuthStore } from '@/stores/auth-store';
 import { useOnboardingStore } from '@/stores/onboarding-store';
 import { useTemplateStore } from '@/stores/template-store';
